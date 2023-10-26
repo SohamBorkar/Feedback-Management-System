@@ -4,12 +4,23 @@
  */
 package com.mycompany.feedback_mng_sys;
 
+import java.awt.HeadlessException;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import javax.swing.JOptionPane;
+
 /**
  *
  * @author soham
  */
 public class LoginForm extends javax.swing.JFrame {
 
+    Connection conn = null;        
+    PreparedStatement pst = null;
+    ResultSet rs = null;
     /**
      * Creates new form LoginForm
      */
@@ -29,10 +40,10 @@ public class LoginForm extends javax.swing.JFrame {
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
-        jComboBox1 = new javax.swing.JComboBox<>();
+        combobox_role = new javax.swing.JComboBox<>();
         txt_id = new javax.swing.JTextField();
-        txt_pass = new javax.swing.JTextField();
         jButton1 = new javax.swing.JButton();
+        txt_pass = new javax.swing.JPasswordField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -45,12 +56,15 @@ public class LoginForm extends javax.swing.JFrame {
         jLabel3.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
         jLabel3.setText("Role");
 
-        jComboBox1.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        jComboBox1.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Student", "Faculty", "Admin" }));
+        combobox_role.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        combobox_role.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Student", "Faculty", "Admin" }));
 
         txt_id.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-
-        txt_pass.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        txt_id.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txt_idActionPerformed(evt);
+            }
+        });
 
         jButton1.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
         jButton1.setText("Login");
@@ -71,12 +85,12 @@ public class LoginForm extends javax.swing.JFrame {
                     .addComponent(jLabel1)
                     .addComponent(jLabel2))
                 .addGap(29, 29, 29)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 94, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                        .addComponent(txt_id)
-                        .addComponent(txt_pass)
-                        .addComponent(jComboBox1, 0, 130, Short.MAX_VALUE))))
+                    .addComponent(txt_id)
+                    .addComponent(combobox_role, 0, 130, Short.MAX_VALUE)
+                    .addComponent(txt_pass))
+                .addContainerGap(162, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -86,16 +100,16 @@ public class LoginForm extends javax.swing.JFrame {
                     .addComponent(jLabel1)
                     .addComponent(txt_id, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(31, 31, 31)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel2)
                     .addComponent(txt_pass, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(32, 32, 32)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel3)
-                    .addComponent(jComboBox1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(combobox_role, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(30, 30, 30)
                 .addComponent(jButton1)
-                .addContainerGap(40, Short.MAX_VALUE))
+                .addContainerGap(114, Short.MAX_VALUE))
         );
 
         pack();
@@ -103,7 +117,45 @@ public class LoginForm extends javax.swing.JFrame {
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         // TODO add your handling code here:
+        try{
+            String query = "SELECT * FROM `multiuserlogin` WHERE ID=? and Password=? and Role=?";
+            // Connection con = DriverManager.getConnection("jdbc:mysql://localhost/feedback_mng_sys", "root", "");
+            conn = DriverManager.getConnection("jdbc:mysql://localhost/feedback_mng_sys", "root", "");
+            pst = conn.prepareStatement(query);
+            pst.setString(1, txt_id.getText());
+            pst.setString(2, txt_pass.getText());
+            pst.setString(3, String.valueOf(combobox_role.getSelectedItem()));
+            rs = pst.executeQuery();
+            if(rs.next()){
+                JOptionPane.showMessageDialog(this, "Logging in as "+rs.getString("role"));
+                switch (combobox_role.getSelectedIndex()) {
+                    case 0:
+                        Admin a = new  Admin();
+                        a.setVisible(true);
+                        this.setVisible(false);
+                        break;
+                    case 1:
+                        Faculty f = new Faculty();
+                        f.setVisible(true);
+                        this.setVisible(false);
+                        break;
+                    case 2:
+                        Student s = new Student();
+                        s.setVisible(true);
+                        this.setVisible(false);
+                        break;
+                    default:
+                        JOptionPane.showMessageDialog(this, "ID or Password Doesn't Mathced");
+                }
+            }
+        }catch(HeadlessException | SQLException ex){
+            JOptionPane.showMessageDialog(this, ex.getMessage());
+        }
     }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void txt_idActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txt_idActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txt_idActionPerformed
 
     /**
      * @param args the command line arguments
@@ -141,12 +193,12 @@ public class LoginForm extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JComboBox<String> combobox_role;
     private javax.swing.JButton jButton1;
-    private javax.swing.JComboBox<String> jComboBox1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JTextField txt_id;
-    private javax.swing.JTextField txt_pass;
+    private javax.swing.JPasswordField txt_pass;
     // End of variables declaration//GEN-END:variables
 }
