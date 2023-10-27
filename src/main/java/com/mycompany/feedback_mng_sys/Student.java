@@ -105,7 +105,7 @@ public class Student extends javax.swing.JFrame {
     private void btn_std_pending_feedbackActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_std_pending_feedbackActionPerformed
         // TODO add your handling code here:
 //        this.toBack();
-        this.hide();
+//        this.hide();
         this.setVisible(false);
         Student_Pending_Feedback spf = new Student_Pending_Feedback();
         spf.setVisible(true);
