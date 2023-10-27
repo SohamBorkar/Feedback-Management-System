@@ -6,6 +6,7 @@ com\mycompany\feedback_mng_sys\Student$3.class
 com\mycompany\feedback_mng_sys\Faculty$1.class
 com\mycompany\feedback_mng_sys\LoginForm$1.class
 com\mycompany\feedback_mng_sys\Student.class
+com\mycompany\feedback_mng_sys\DatabaseConnector.class
 com\mycompany\feedback_mng_sys\Faculty.class
 com\mycompany\feedback_mng_sys\Student_Pending_Feedback$3.class
 com\mycompany\feedback_mng_sys\LoginForm.class
