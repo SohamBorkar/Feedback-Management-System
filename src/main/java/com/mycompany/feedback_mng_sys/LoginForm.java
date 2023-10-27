@@ -131,6 +131,9 @@ public class LoginForm extends javax.swing.JFrame {
                         JOptionPane.showMessageDialog(this, "ID or Password Doesn't Mathced");
                 }
             }
+            else {
+            JOptionPane.showMessageDialog(this, "Login Failed. Incorrect ID or Password.");
+        }
         }catch(HeadlessException | SQLException ex){
             JOptionPane.showMessageDialog(this, ex.getMessage());
         }
