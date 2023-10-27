@@ -117,10 +117,16 @@ public class LoginForm extends javax.swing.JFrame {
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         // TODO add your handling code here:
+//        try{
+//            class.forName(com.mysql.jdbc.Driver);
+//            conn=DriverManager.getConnection("jdbc:mysql://localhost:3306/feedback_mng_sys", "root", "");
+//            rs = smnt.executeQuery("")
+//        }
+        
         try{
             String query = "SELECT * FROM `multiuserlogin` WHERE ID=? and Password=? and Role=?";
             // Connection con = DriverManager.getConnection("jdbc:mysql://localhost/feedback_mng_sys", "root", "");
-            conn = DriverManager.getConnection("jdbc:mysql://localhost/feedback_mng_sys", "root", "");
+            conn = DriverManager.getConnection("jdbc:mysql://localhost:3306/feedback_mng_sys", "root", "");
             pst = conn.prepareStatement(query);
             pst.setString(1, txt_id.getText());
             pst.setString(2, txt_pass.getText());
@@ -183,7 +189,11 @@ public class LoginForm extends javax.swing.JFrame {
             java.util.logging.Logger.getLogger(LoginForm.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
         //</editor-fold>
-
+        try {
+            Class.forName("com.mysql.cj.jdbc.Driver"); // Load the MySQL driver
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+        }
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
