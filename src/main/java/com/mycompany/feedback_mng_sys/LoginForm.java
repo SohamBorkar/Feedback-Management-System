@@ -45,7 +45,7 @@ public class LoginForm extends javax.swing.JFrame {
         jButton1 = new javax.swing.JButton();
         txt_pass = new javax.swing.JPasswordField();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
         jLabel1.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
         jLabel1.setText("ID");
@@ -133,11 +133,11 @@ public class LoginForm extends javax.swing.JFrame {
             pst.setString(3, String.valueOf(combobox_role.getSelectedItem()));
             rs = pst.executeQuery();
             if(rs.next()){
-                JOptionPane.showMessageDialog(this, "Logging in as "+rs.getString("role"));
+                JOptionPane.showMessageDialog(this, "Logging in as "+rs.getString("Role"));
                 switch (combobox_role.getSelectedIndex()) {
                     case 0:
-                        Admin a = new  Admin();
-                        a.setVisible(true);
+                        Student s = new Student();
+                        s.setVisible(true);
                         this.setVisible(false);
                         break;
                     case 1:
@@ -146,8 +146,8 @@ public class LoginForm extends javax.swing.JFrame {
                         this.setVisible(false);
                         break;
                     case 2:
-                        Student s = new Student();
-                        s.setVisible(true);
+                        Admin a = new  Admin();
+                        a.setVisible(true);
                         this.setVisible(false);
                         break;
                     default:
