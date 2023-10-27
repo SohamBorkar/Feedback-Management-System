@@ -41,6 +41,9 @@ public class Student extends javax.swing.JFrame {
         btn_std_pending_feedback = new javax.swing.JButton();
         btn_std_logout = new javax.swing.JButton();
 
+        setTitle("Student Home");
+        setResizable(false);
+
         jLabel1.setFont(new java.awt.Font("Segoe UI", 0, 24)); // NOI18N
         jLabel1.setText("Welcome Student !");
 
@@ -89,6 +92,7 @@ public class Student extends javax.swing.JFrame {
         );
 
         pack();
+        setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
     private void btn_std_logoutActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_std_logoutActionPerformed

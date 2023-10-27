@@ -11,6 +11,6 @@ package com.mycompany.feedback_mng_sys;
 public class Feedback_mng_sys {
 
     public static void main(String[] args) {
-        System.out.println("Hello Freakin World!");
+        
     }
 }

@@ -32,6 +32,8 @@ public class Faculty extends javax.swing.JFrame {
         jButton2 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setTitle("Faculty Home");
+        setResizable(false);
 
         jLabel1.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
         jLabel1.setText("Welcome Faculty !");
@@ -85,6 +87,7 @@ public class Faculty extends javax.swing.JFrame {
         );
 
         pack();
+        setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
 
     private void btn_fac_logoutActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_fac_logoutActionPerformed
