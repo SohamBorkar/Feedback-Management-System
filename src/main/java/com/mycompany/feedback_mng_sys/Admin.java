@@ -26,21 +26,74 @@ public class Admin extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        jLabel1 = new javax.swing.JLabel();
+        btn_admin_add_std = new javax.swing.JButton();
+        btn_admin_add_fac = new javax.swing.JButton();
+        btn_admin_logout = new javax.swing.JButton();
+
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+
+        jLabel1.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
+        jLabel1.setText("Welcome Admin !");
+
+        btn_admin_add_std.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        btn_admin_add_std.setText("Add Student");
+
+        btn_admin_add_fac.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        btn_admin_add_fac.setText("Add Faculty");
+
+        btn_admin_logout.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        btn_admin_logout.setText("Log Out");
+        btn_admin_logout.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btn_admin_logoutActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 400, Short.MAX_VALUE)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addGap(0, 0, Short.MAX_VALUE)
+                .addComponent(btn_admin_logout)
+                .addGap(44, 44, 44))
+            .addGroup(layout.createSequentialGroup()
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(120, 120, 120)
+                        .addComponent(jLabel1))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(130, 130, 130)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(btn_admin_add_std, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(btn_admin_add_fac, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+                .addContainerGap(138, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 300, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addGap(47, 47, 47)
+                .addComponent(jLabel1)
+                .addGap(47, 47, 47)
+                .addComponent(btn_admin_add_std)
+                .addGap(34, 34, 34)
+                .addComponent(btn_admin_add_fac)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 38, Short.MAX_VALUE)
+                .addComponent(btn_admin_logout)
+                .addGap(31, 31, 31))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
+
+    private void btn_admin_logoutActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_admin_logoutActionPerformed
+        // TODO add your handling code here:
+        this.dispose();
+        LoginForm lf = new LoginForm();
+        lf.setVisible(true);
+        this.setVisible(false);
+    }//GEN-LAST:event_btn_admin_logoutActionPerformed
 
     /**
      * @param args the command line arguments
@@ -78,5 +131,9 @@ public class Admin extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btn_admin_add_fac;
+    private javax.swing.JButton btn_admin_add_std;
+    private javax.swing.JButton btn_admin_logout;
+    private javax.swing.JLabel jLabel1;
     // End of variables declaration//GEN-END:variables
 }
