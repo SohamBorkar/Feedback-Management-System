@@ -121,7 +121,7 @@ public class LoginForm extends javax.swing.JFrame {
                         this.setVisible(false);
                         break;
                     case 1:
-                        Faculty f = new Faculty();
+                        Faculty f = new Faculty(txt_id.getText());
                         f.setVisible(true);
                         this.setVisible(false);
                         break;
@@ -131,11 +131,11 @@ public class LoginForm extends javax.swing.JFrame {
                         this.setVisible(false);
                         break;
                     default:
-                        JOptionPane.showMessageDialog(this, "ID or Password Doesn't Mathced");
+                        JOptionPane.showMessageDialog(this, "ID or Password Doesn't Mathced","Error",JOptionPane.ERROR_MESSAGE);
                 }
             }
             else {
-            JOptionPane.showMessageDialog(this, "Login Failed. Incorrect ID or Password.");
+            JOptionPane.showMessageDialog(this, "Login Failed. Incorrect ID or Password.","Error",JOptionPane.ERROR_MESSAGE);
         }
         }catch(HeadlessException | SQLException ex){
             JOptionPane.showMessageDialog(this, ex.getMessage());
@@ -146,9 +146,6 @@ public class LoginForm extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_txt_idActionPerformed
 
-    /**
-     * @param args the command line arguments
-     */
     public static void main(String args[]) {
         /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">

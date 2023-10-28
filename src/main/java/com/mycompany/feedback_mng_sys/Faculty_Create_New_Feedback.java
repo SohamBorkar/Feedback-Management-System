@@ -4,19 +4,24 @@
  */
 package com.mycompany.feedback_mng_sys;
 
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.Statement;
 import javax.swing.JOptionPane;
 
-/**
- *
- * @author soham
- */
 public class Faculty_Create_New_Feedback extends javax.swing.JFrame {
 
-    /**
-     * Creates new form Faculty_Create_New_Feedback
-     */
-    public Faculty_Create_New_Feedback() {
+    private Connection conn = null;
+    private PreparedStatement pst = null;
+    private ResultSet rs = null;
+    private String query = null;
+    private String loggedUserId;
+
+    public Faculty_Create_New_Feedback(String id) {
         initComponents();
+        conn = DatabaseConnector.connect();
+        loggedUserId = id;
     }
 
     /**
@@ -109,13 +114,22 @@ public class Faculty_Create_New_Feedback extends javax.swing.JFrame {
         // TODO add your handling code here:
         String feedbackName = tf_fac_feedback_name.getText();
         int numQuestions = (int) tf_fac_num_of_qst_in_feedback.getValue();
-        
+
         if (feedbackName.isEmpty() || numQuestions <= 0) {
-        // Show an error message if either field is empty or the number of questions is not greater than 0
-        JOptionPane.showMessageDialog(this, "Either name is empty or number of questions are less than 1.");
-    } else {
-        JOptionPane.showMessageDialog(this, "Now add the questions you want");
-    }
+            // Show an error message if either field is empty or the number of questions is not greater than 0
+            JOptionPane.showMessageDialog(this, "Either name is empty or number of questions are less than 1.", "Error", JOptionPane.ERROR_MESSAGE);
+        } else {
+            try {
+                String feedbackId = addFeedback(feedbackName, numQuestions);
+                createFeedbackTable(feedbackId);
+                JOptionPane.showMessageDialog(this, "Feedback created successfully!", "Sucess", JOptionPane.PLAIN_MESSAGE);
+
+            } catch (Exception e) {
+                e.printStackTrace();
+                JOptionPane.showMessageDialog(this, e, "Error", JOptionPane.ERROR_MESSAGE);
+            }
+
+        }
     }//GEN-LAST:event_btn_fac_feedback_details_proceedActionPerformed
 
     /**
@@ -146,11 +160,11 @@ public class Faculty_Create_New_Feedback extends javax.swing.JFrame {
         //</editor-fold>
 
         /* Create and display the form */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                new Faculty_Create_New_Feedback().setVisible(true);
-            }
-        });
+//        java.awt.EventQueue.invokeLater(new Runnable() {
+//            public void run() {
+//                new Faculty_Create_New_Feedback().setVisible(true);
+//            }
+//        });
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -161,4 +175,54 @@ public class Faculty_Create_New_Feedback extends javax.swing.JFrame {
     private javax.swing.JTextField tf_fac_feedback_name;
     private javax.swing.JSpinner tf_fac_num_of_qst_in_feedback;
     // End of variables declaration//GEN-END:variables
+
+    private String addFeedback(String feedbackName, int numQuestions) {
+        String generatedFeedId = null; // Initialize to null indicating failure.
+
+        try {
+            query = "INSERT INTO feedbacks(feed_name, by_faculty_id, no_que) VALUES(?, ?, ?)";
+            pst = conn.prepareStatement(query, PreparedStatement.RETURN_GENERATED_KEYS);
+            pst.setString(1, feedbackName);
+            pst.setString(2, loggedUserId);
+            pst.setInt(3, numQuestions);
+
+            int rowsAffected = pst.executeUpdate();
+
+            if (rowsAffected > 0) {
+                // Retrieving the generated feed_id
+                ResultSet generatedKeys = pst.getGeneratedKeys();
+                if (generatedKeys.next()) {
+                    generatedFeedId = String.valueOf(generatedKeys.getInt(1));
+                }
+
+//            JOptionPane.showMessageDialog(this, "Success!! (feed_id: " + generatedFeedId + ")");
+            } else {
+                JOptionPane.showMessageDialog(this, "Something went wrong!!", "Error", JOptionPane.ERROR_MESSAGE);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            JOptionPane.showMessageDialog(this, e, "Error", JOptionPane.ERROR_MESSAGE);
+        }
+
+        return generatedFeedId;
+    }
+
+    private void createFeedbackTable(String feedbackId) {
+        String tableName = "feedback_" + feedbackId;
+        try {
+            // Construct the SQL query as a string
+            query = "CREATE TABLE " + tableName + " (que_id INT AUTO_INCREMENT PRIMARY KEY, question VARCHAR(255), ops_type VARCHAR(255))";
+
+            // Execute the SQL query using your database connection
+            Statement stmt = conn.createStatement();
+            stmt.executeUpdate(query);
+
+            // Close the statement
+            stmt.close();
+//        JOptionPane.showMessageDialog(this, "Table created succesfuly!");
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(this, e);
+        }
+    }
+
 }
