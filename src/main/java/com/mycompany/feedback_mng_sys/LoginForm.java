@@ -116,7 +116,7 @@ public class LoginForm extends javax.swing.JFrame {
                 JOptionPane.showMessageDialog(this, "Logging in as "+rs.getString("Role"));
                 switch (combobox_role.getSelectedIndex()) {
                     case 0:
-                        Student s = new Student();
+                        Student s = new Student(txt_id.getText());
                         s.setVisible(true);
                         this.setVisible(false);
                         break;

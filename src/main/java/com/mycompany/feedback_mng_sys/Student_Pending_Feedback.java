@@ -9,7 +9,7 @@ package com.mycompany.feedback_mng_sys;
  * @author soham
  */
 public class Student_Pending_Feedback extends javax.swing.JFrame {
-
+    private String stdId;
     /**
      * Creates new form Student_Pending_Feedback
      */
@@ -105,7 +105,7 @@ public class Student_Pending_Feedback extends javax.swing.JFrame {
 //        new Student().toFront();
 //        new Student().setState(java.awt.Frame.NORMAL);
 
-        Student s = new Student();
+        Student s = new Student(stdId);
         s.setVisible(true);
         this.setVisible(false);
     }//GEN-LAST:event_btn_std_homeActionPerformed
