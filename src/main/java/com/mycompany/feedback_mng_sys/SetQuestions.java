@@ -15,20 +15,23 @@ public class SetQuestions extends javax.swing.JFrame {
     private Statement st = null;
     private ResultSet rs = null;
     private DefaultListModel<String> listModel;
-    private int currQue = 1; 
+    private int currQue = 1;
+    private int totalQue;
 
     public SetQuestions(String feedbackId, String tableName, int numQuestions) {
         initComponents();
         conn = DatabaseConnector.connect();
+        totalQue = numQuestions;
         txtTotalQue.setText(Integer.toString(numQuestions));
         txtQueNo.setText(Integer.toString(currQue));
+        btnPrevious.setEnabled(false);
         getOptionSets();
         listOptionSet.addListSelectionListener(new javax.swing.event.ListSelectionListener() {
             public void valueChanged(javax.swing.event.ListSelectionEvent evt) {
                 listOptionSetValueChanged(evt);
             }
         });
-        
+
     }
 
     @SuppressWarnings("unchecked")
@@ -126,6 +129,11 @@ public class SetQuestions extends javax.swing.JFrame {
 
         btnPrevious.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         btnPrevious.setText("< Previous");
+        btnPrevious.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnPreviousActionPerformed(evt);
+            }
+        });
 
         btnCancle.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         btnCancle.setText("Cancle");
@@ -255,12 +263,31 @@ public class SetQuestions extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnNextActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNextActionPerformed
-        // TODO add your handling code here:
+        if (currQue == totalQue) {
+            JOptionPane.showMessageDialog(this, "Questions set successfully!");
+        } else {
+            currQue++;
+            txtQueNo.setText(Integer.toString(currQue));
+            btnPrevious.setEnabled(true);
+            if (currQue == totalQue) {
+                btnNext.setText("Submit");
+            }
+        }
     }//GEN-LAST:event_btnNextActionPerformed
 
     private void btnCancleActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCancleActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_btnCancleActionPerformed
+
+    private void btnPreviousActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPreviousActionPerformed
+        
+        btnNext.setText("Next >");
+        currQue--;
+        txtQueNo.setText(Integer.toString(currQue));
+        if (currQue == 1){
+             btnPrevious.setEnabled(false);
+        }
+    }//GEN-LAST:event_btnPreviousActionPerformed
 
     /**
      * @param args the command line arguments
