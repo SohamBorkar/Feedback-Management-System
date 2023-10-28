@@ -40,7 +40,6 @@ public class Faculty_Create_New_Feedback extends javax.swing.JFrame {
         tf_fac_num_of_qst_in_feedback = new javax.swing.JSpinner();
         btn_fac_feedback_details_proceed = new javax.swing.JButton();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Feedback Details");
         setResizable(false);
 
@@ -121,9 +120,14 @@ public class Faculty_Create_New_Feedback extends javax.swing.JFrame {
         } else {
             try {
                 String feedbackId = addFeedback(feedbackName, numQuestions);
-                createFeedbackTable(feedbackId);
+                String tableName = createFeedbackTable(feedbackId);
                 JOptionPane.showMessageDialog(this, "Feedback created successfully!", "Sucess", JOptionPane.PLAIN_MESSAGE);
-
+                
+                // forwarding to the next page of add question in the feeback
+                this.setVisible(false);
+                SetQuestions sq = new SetQuestions(feedbackId, tableName, numQuestions);
+                sq.setVisible(true);
+                
             } catch (Exception e) {
                 e.printStackTrace();
                 JOptionPane.showMessageDialog(this, e, "Error", JOptionPane.ERROR_MESSAGE);
@@ -207,7 +211,7 @@ public class Faculty_Create_New_Feedback extends javax.swing.JFrame {
         return generatedFeedId;
     }
 
-    private void createFeedbackTable(String feedbackId) {
+    private String createFeedbackTable(String feedbackId) {
         String tableName = "feedback_" + feedbackId;
         try {
             // Construct the SQL query as a string
@@ -223,6 +227,7 @@ public class Faculty_Create_New_Feedback extends javax.swing.JFrame {
         } catch (Exception e) {
             JOptionPane.showMessageDialog(this, e);
         }
+        return tableName;
     }
 
 }

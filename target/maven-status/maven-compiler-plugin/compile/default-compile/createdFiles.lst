@@ -5,7 +5,6 @@ com\mycompany\feedback_mng_sys\Admin.class
 com\mycompany\feedback_mng_sys\Faculty$1.class
 com\mycompany\feedback_mng_sys\DatabaseConnector.class
 com\mycompany\feedback_mng_sys\Faculty.class
-com\mycompany\feedback_mng_sys\SetQuestions$4.class
 com\mycompany\feedback_mng_sys\Student_Pending_Feedback$3.class
 com\mycompany\feedback_mng_sys\SetQuestions.class
 com\mycompany\feedback_mng_sys\Faculty_Create_New_Feedback.class
