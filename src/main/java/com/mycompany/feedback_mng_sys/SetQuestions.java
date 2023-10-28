@@ -5,6 +5,8 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.Statement;
 import javax.swing.DefaultListModel;
+import javax.swing.JOptionPane;
+import javax.swing.event.ListSelectionEvent;
 
 public class SetQuestions extends javax.swing.JFrame {
 
@@ -19,6 +21,11 @@ public class SetQuestions extends javax.swing.JFrame {
         conn = DatabaseConnector.connect();
         txtTotalQue.setText(Integer.toString(numQuestions));
         getOptionSets();
+        listOptionSet.addListSelectionListener(new javax.swing.event.ListSelectionListener() {
+            public void valueChanged(javax.swing.event.ListSelectionEvent evt) {
+                listOptionSetValueChanged(evt);
+            }
+        });
     }
 
     @SuppressWarnings("unchecked")
@@ -221,7 +228,7 @@ public class SetQuestions extends javax.swing.JFrame {
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel4)
                             .addComponent(txtOps1))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(jLabel6)
                             .addComponent(txtOps2))
@@ -319,16 +326,43 @@ public class SetQuestions extends javax.swing.JFrame {
             String query = "SELECT * FROM options";
             st = conn.createStatement();
             rs = st.executeQuery(query);
-            
+
             while (rs.next()) {
                 String optionName = rs.getString("ops_type");
                 listModel.addElement(optionName); // Add the option to the list model
             }
-            
+
             listOptionSet.setModel(listModel);
         } catch (Exception e) {
             e.printStackTrace();
         }
 
+    }
+
+    private void listOptionSetValueChanged(ListSelectionEvent evt) {
+        if (!evt.getValueIsAdjusting()) {
+            int selectedIndex = listOptionSet.getSelectedIndex();
+            if (selectedIndex != -1) {
+                try {
+                    String query = "SELECT * FROM options";
+                    st = conn.createStatement();
+                    rs = st.executeQuery(query);
+
+                    for (int row = 0; row <= selectedIndex; row++) {
+                        rs.next(); // Move to the next row
+                    }
+
+                    txtOps1.setText(rs.getString("ops1"));
+                    txtOps2.setText(rs.getString("ops2"));
+                    txtOps3.setText(rs.getString("ops3"));
+                    txtOps4.setText(rs.getString("ops4"));
+                    txtOps5.setText(rs.getString("ops5"));
+
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+
+            }
+        }
     }
 }
