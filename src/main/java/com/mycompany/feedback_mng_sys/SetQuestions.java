@@ -15,17 +15,20 @@ public class SetQuestions extends javax.swing.JFrame {
     private Statement st = null;
     private ResultSet rs = null;
     private DefaultListModel<String> listModel;
+    private int currQue = 1; 
 
     public SetQuestions(String feedbackId, String tableName, int numQuestions) {
         initComponents();
         conn = DatabaseConnector.connect();
         txtTotalQue.setText(Integer.toString(numQuestions));
+        txtQueNo.setText(Integer.toString(currQue));
         getOptionSets();
         listOptionSet.addListSelectionListener(new javax.swing.event.ListSelectionListener() {
             public void valueChanged(javax.swing.event.ListSelectionEvent evt) {
                 listOptionSetValueChanged(evt);
             }
         });
+        
     }
 
     @SuppressWarnings("unchecked")
