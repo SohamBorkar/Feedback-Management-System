@@ -125,7 +125,7 @@ public class Faculty_Create_New_Feedback extends javax.swing.JFrame {
                 
                 // forwarding to the next page of add question in the feeback
                 this.setVisible(false);
-                SetQuestions sq = new SetQuestions(feedbackId, tableName, numQuestions);
+                SetQuestions sq = new SetQuestions(feedbackId, tableName, numQuestions, loggedUserId);
                 sq.setVisible(true);
                 
             } catch (Exception e) {
@@ -215,7 +215,7 @@ public class Faculty_Create_New_Feedback extends javax.swing.JFrame {
         String tableName = "feedback_" + feedbackId;
         try {
             // Construct the SQL query as a string
-            query = "CREATE TABLE " + tableName + " (que_id INT AUTO_INCREMENT PRIMARY KEY, question VARCHAR(255), ops_type VARCHAR(255))";
+            query = "CREATE TABLE " + tableName + " (que_id INT PRIMARY KEY, question VARCHAR(255), ops_type VARCHAR(255))";
 
             // Execute the SQL query using your database connection
             Statement stmt = conn.createStatement();

@@ -17,11 +17,16 @@ public class SetQuestions extends javax.swing.JFrame {
     private DefaultListModel<String> listModel;
     private int currQue = 1;
     private int totalQue;
+    private String tableName = null;
+    private String selectedOpsType = null;
+    private String loggedUserId;
 
-    public SetQuestions(String feedbackId, String tableName, int numQuestions) {
+    public SetQuestions(String feedbackId, String tableName, int numQuestions, String loggedUserId) {
         initComponents();
         conn = DatabaseConnector.connect();
         totalQue = numQuestions;
+        this.tableName = tableName;
+        this.loggedUserId = loggedUserId;
         txtTotalQue.setText(Integer.toString(numQuestions));
         txtQueNo.setText(Integer.toString(currQue));
         btnPrevious.setEnabled(false);
@@ -31,7 +36,6 @@ public class SetQuestions extends javax.swing.JFrame {
                 listOptionSetValueChanged(evt);
             }
         });
-
     }
 
     @SuppressWarnings("unchecked")
@@ -41,7 +45,7 @@ public class SetQuestions extends javax.swing.JFrame {
         jLabel1 = new javax.swing.JLabel();
         txtQueNo = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
-        jTextArea1 = new javax.swing.JTextArea();
+        txtaQue = new javax.swing.JTextArea();
         jLabel2 = new javax.swing.JLabel();
         jLabel3 = new javax.swing.JLabel();
         jScrollPane2 = new javax.swing.JScrollPane();
@@ -72,9 +76,9 @@ public class SetQuestions extends javax.swing.JFrame {
         txtQueNo.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
         txtQueNo.setText("0");
 
-        jTextArea1.setColumns(20);
-        jTextArea1.setRows(5);
-        jScrollPane1.setViewportView(jTextArea1);
+        txtaQue.setColumns(20);
+        txtaQue.setRows(5);
+        jScrollPane1.setViewportView(txtaQue);
 
         jLabel2.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         jLabel2.setText("Your Question:");
@@ -263,14 +267,25 @@ public class SetQuestions extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnNextActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNextActionPerformed
-        if (currQue == totalQue) {
-            JOptionPane.showMessageDialog(this, "Questions set successfully!");
+        if ("".equals(txtaQue.getText()) || "null".equals(txtOps1.getText())) {
+            JOptionPane.showMessageDialog(this, "Please fill all the details!", "Warning", JOptionPane.WARNING_MESSAGE);
         } else {
-            currQue++;
-            txtQueNo.setText(Integer.toString(currQue));
-            btnPrevious.setEnabled(true);
             if (currQue == totalQue) {
-                btnNext.setText("Submit");
+                int confirmResult = JOptionPane.showConfirmDialog(this, "Are you sure you want to submit?", "Confirmation", JOptionPane.YES_NO_OPTION);
+                if (confirmResult == JOptionPane.YES_OPTION) {
+                    insertQuestion();
+                    this.dispose();
+                    new Faculty(loggedUserId).setVisible(true);
+                    JOptionPane.showMessageDialog(this, "Questions set successfully!");
+                }
+            } else {
+                insertQuestion();
+                currQue++;
+                txtQueNo.setText(Integer.toString(currQue));
+                btnPrevious.setEnabled(true);
+                if (currQue == totalQue) {
+                    btnNext.setText("Submit");
+                }
             }
         }
     }//GEN-LAST:event_btnNextActionPerformed
@@ -280,12 +295,11 @@ public class SetQuestions extends javax.swing.JFrame {
     }//GEN-LAST:event_btnCancleActionPerformed
 
     private void btnPreviousActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPreviousActionPerformed
-        
         btnNext.setText("Next >");
         currQue--;
         txtQueNo.setText(Integer.toString(currQue));
-        if (currQue == 1){
-             btnPrevious.setEnabled(false);
+        if (currQue == 1) {
+            btnPrevious.setEnabled(false);
         }
     }//GEN-LAST:event_btnPreviousActionPerformed
 
@@ -339,7 +353,6 @@ public class SetQuestions extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel9;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
-    private javax.swing.JTextArea jTextArea1;
     private javax.swing.JList<String> listOptionSet;
     private javax.swing.JLabel txtOps1;
     private javax.swing.JLabel txtOps2;
@@ -348,6 +361,7 @@ public class SetQuestions extends javax.swing.JFrame {
     private javax.swing.JLabel txtOps5;
     private javax.swing.JLabel txtQueNo;
     private javax.swing.JLabel txtTotalQue;
+    private javax.swing.JTextArea txtaQue;
     // End of variables declaration//GEN-END:variables
 
     private void getOptionSets() {
@@ -372,6 +386,7 @@ public class SetQuestions extends javax.swing.JFrame {
     private void listOptionSetValueChanged(ListSelectionEvent evt) {
         if (!evt.getValueIsAdjusting()) {
             int selectedIndex = listOptionSet.getSelectedIndex();
+            selectedOpsType = listOptionSet.getSelectedValue();
             if (selectedIndex != -1) {
                 try {
                     String query = "SELECT * FROM options";
@@ -381,18 +396,37 @@ public class SetQuestions extends javax.swing.JFrame {
                     for (int row = 0; row <= selectedIndex; row++) {
                         rs.next(); // Move to the next row
                     }
-
                     txtOps1.setText(rs.getString("ops1"));
                     txtOps2.setText(rs.getString("ops2"));
                     txtOps3.setText(rs.getString("ops3"));
                     txtOps4.setText(rs.getString("ops4"));
                     txtOps5.setText(rs.getString("ops5"));
-
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
-
             }
         }
     }
+
+    private void insertQuestion() {
+        try {
+            String query = "INSERT INTO " + tableName + " (que_id, question, ops_type) VALUES (?, ?, ?) "
+                    + "ON DUPLICATE KEY UPDATE question = VALUES(question), ops_type = VALUES(ops_type)";
+            pst = conn.prepareStatement(query, PreparedStatement.RETURN_GENERATED_KEYS);
+            pst.setInt(1, currQue);
+            pst.setString(2, txtaQue.getText());
+            pst.setString(3, selectedOpsType);
+
+            int rowsAffected = pst.executeUpdate();
+
+            if (rowsAffected > 0) {
+                txtaQue.setText("");
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            JOptionPane.showMessageDialog(this, e, "Error", JOptionPane.ERROR_MESSAGE);
+        }
+    }
+
 }
