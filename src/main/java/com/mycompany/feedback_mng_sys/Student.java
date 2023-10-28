@@ -6,6 +6,9 @@ package com.mycompany.feedback_mng_sys;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import javax.swing.JOptionPane;
 
 /**
@@ -13,12 +16,28 @@ import javax.swing.JOptionPane;
  * @author soham
  */
 public class Student extends javax.swing.JFrame {
-
+    private Connection conn = null;
+    private PreparedStatement pst = null;
+    private ResultSet rs = null;
+    private String query = null;
+    private String stdId;
     /**
      * Creates new form Student
      */
-    public Student() {
+    public Student(String id) {
         initComponents();
+        try {
+            String query = "SELECT * FROM `student` WHERE std_prn = ?";
+            conn = DatabaseConnector.connect();
+            pst = conn.prepareStatement(query);
+            pst.setString(1, id);
+            rs = pst.executeQuery();
+            rs.next();
+            txt_std_greet.setText("Welcome "+rs.getString("std_name")+"!");
+            DatabaseConnector.disconnect();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
 
@@ -37,15 +56,15 @@ public class Student extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jLabel1 = new javax.swing.JLabel();
+        txt_std_greet = new javax.swing.JLabel();
         btn_std_pending_feedback = new javax.swing.JButton();
         btn_std_logout = new javax.swing.JButton();
 
         setTitle("Student Home");
         setResizable(false);
 
-        jLabel1.setFont(new java.awt.Font("Segoe UI", 0, 24)); // NOI18N
-        jLabel1.setText("Welcome Student !");
+        txt_std_greet.setFont(new java.awt.Font("Segoe UI", 0, 24)); // NOI18N
+        txt_std_greet.setText("Welcome Student !");
 
         btn_std_pending_feedback.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         btn_std_pending_feedback.setText("View Pending Feedbacks");
@@ -70,7 +89,7 @@ public class Student extends javax.swing.JFrame {
                 .addContainerGap(99, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addComponent(jLabel1)
+                        .addComponent(txt_std_greet)
                         .addGap(95, 95, 95))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                         .addComponent(btn_std_logout)
@@ -83,7 +102,7 @@ public class Student extends javax.swing.JFrame {
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addGap(51, 51, 51)
-                .addComponent(jLabel1)
+                .addComponent(txt_std_greet)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 64, Short.MAX_VALUE)
                 .addComponent(btn_std_pending_feedback)
                 .addGap(62, 62, 62)
@@ -145,7 +164,7 @@ public class Student extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                new Student().setVisible(true);
+//                new Student().setVisible(true);
             }
         });
     }
@@ -153,6 +172,6 @@ public class Student extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btn_std_logout;
     private javax.swing.JButton btn_std_pending_feedback;
-    private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel txt_std_greet;
     // End of variables declaration//GEN-END:variables
 }
