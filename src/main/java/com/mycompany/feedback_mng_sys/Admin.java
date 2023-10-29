@@ -4,6 +4,8 @@
  */
 package com.mycompany.feedback_mng_sys;
 
+import java.awt.Color;
+
 /**
  *
  * @author soham
@@ -26,74 +28,320 @@ public class Admin extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        jPanel2 = new javax.swing.JPanel();
+        tabFaculty = new javax.swing.JPanel();
+        jLabel4 = new javax.swing.JLabel();
+        tabStudents = new javax.swing.JPanel();
+        jLabel5 = new javax.swing.JLabel();
         jLabel1 = new javax.swing.JLabel();
-        btn_admin_add_std = new javax.swing.JButton();
-        btn_admin_add_fac = new javax.swing.JButton();
         btn_admin_logout = new javax.swing.JButton();
+        panTabs = new javax.swing.JPanel();
+        panFaculty = new javax.swing.JPanel();
+        btn_admin_add_fac = new javax.swing.JButton();
+        jLabel2 = new javax.swing.JLabel();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        jTable1 = new javax.swing.JTable();
+        btn_admin_add_fac1 = new javax.swing.JButton();
+        btn_admin_add_fac2 = new javax.swing.JButton();
+        panStudents = new javax.swing.JPanel();
+        jLabel3 = new javax.swing.JLabel();
+        jScrollPane2 = new javax.swing.JScrollPane();
+        jTable2 = new javax.swing.JTable();
+        btn_admin_add_fac3 = new javax.swing.JButton();
+        btn_admin_add_fac4 = new javax.swing.JButton();
+        btn_admin_add_fac5 = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Admin Home");
         setResizable(false);
 
-        jLabel1.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
-        jLabel1.setText("Welcome Admin !");
+        jPanel2.setBackground(new java.awt.Color(0, 153, 255));
 
-        btn_admin_add_std.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        btn_admin_add_std.setText("Add Student");
-        btn_admin_add_std.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btn_admin_add_stdActionPerformed(evt);
+        tabFaculty.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        tabFaculty.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tabFacultyMouseClicked(evt);
             }
         });
 
-        btn_admin_add_fac.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        btn_admin_add_fac.setText("Add Faculty");
-        btn_admin_add_fac.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btn_admin_add_facActionPerformed(evt);
+        jLabel4.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
+        jLabel4.setText("Faculty");
+
+        javax.swing.GroupLayout tabFacultyLayout = new javax.swing.GroupLayout(tabFaculty);
+        tabFaculty.setLayout(tabFacultyLayout);
+        tabFacultyLayout.setHorizontalGroup(
+            tabFacultyLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(tabFacultyLayout.createSequentialGroup()
+                .addGap(42, 42, 42)
+                .addComponent(jLabel4)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+        tabFacultyLayout.setVerticalGroup(
+            tabFacultyLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, tabFacultyLayout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jLabel4)
+                .addContainerGap())
+        );
+
+        tabStudents.setBackground(new java.awt.Color(179, 219, 246));
+        tabStudents.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
+        tabStudents.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tabStudentsMouseClicked(evt);
             }
         });
+
+        jLabel5.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
+        jLabel5.setText("Students");
+
+        javax.swing.GroupLayout tabStudentsLayout = new javax.swing.GroupLayout(tabStudents);
+        tabStudents.setLayout(tabStudentsLayout);
+        tabStudentsLayout.setHorizontalGroup(
+            tabStudentsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(tabStudentsLayout.createSequentialGroup()
+                .addGap(33, 33, 33)
+                .addComponent(jLabel5)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+        tabStudentsLayout.setVerticalGroup(
+            tabStudentsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, tabStudentsLayout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jLabel5)
+                .addContainerGap())
+        );
+
+        jLabel1.setBackground(new java.awt.Color(204, 204, 204));
+        jLabel1.setFont(new java.awt.Font("Segoe UI", 0, 17)); // NOI18N
+        jLabel1.setText("Welcome Admin!");
 
         btn_admin_logout.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        btn_admin_logout.setText("Log Out");
+        btn_admin_logout.setText("Logout");
         btn_admin_logout.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btn_admin_logoutActionPerformed(evt);
             }
         });
 
+        javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
+        jPanel2.setLayout(jPanel2Layout);
+        jPanel2Layout.setHorizontalGroup(
+            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(tabFaculty, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(tabStudents, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jLabel1)
+                .addContainerGap())
+            .addGroup(jPanel2Layout.createSequentialGroup()
+                .addGap(31, 31, 31)
+                .addComponent(btn_admin_logout)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+        jPanel2Layout.setVerticalGroup(
+            jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel2Layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jLabel1)
+                .addGap(97, 97, 97)
+                .addComponent(tabFaculty, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addComponent(tabStudents, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(btn_admin_logout)
+                .addGap(18, 18, 18))
+        );
+
+        panTabs.setBackground(new java.awt.Color(255, 255, 255));
+
+        btn_admin_add_fac.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        btn_admin_add_fac.setText("Add");
+        btn_admin_add_fac.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btn_admin_add_facActionPerformed(evt);
+            }
+        });
+
+        jLabel2.setFont(new java.awt.Font("Segoe UI", 0, 20)); // NOI18N
+        jLabel2.setText("Faculty");
+
+        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null}
+            },
+            new String [] {
+                "Title 1", "Title 2", "Title 3", "Title 4"
+            }
+        ));
+        jScrollPane1.setViewportView(jTable1);
+
+        btn_admin_add_fac1.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        btn_admin_add_fac1.setText("Delete");
+        btn_admin_add_fac1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btn_admin_add_fac1ActionPerformed(evt);
+            }
+        });
+
+        btn_admin_add_fac2.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        btn_admin_add_fac2.setText("Update");
+        btn_admin_add_fac2.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btn_admin_add_fac2ActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout panFacultyLayout = new javax.swing.GroupLayout(panFaculty);
+        panFaculty.setLayout(panFacultyLayout);
+        panFacultyLayout.setHorizontalGroup(
+            panFacultyLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(panFacultyLayout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(panFacultyLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(panFacultyLayout.createSequentialGroup()
+                        .addGap(0, 270, Short.MAX_VALUE)
+                        .addComponent(jLabel2)
+                        .addGap(272, 272, 272))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panFacultyLayout.createSequentialGroup()
+                        .addComponent(jScrollPane1)
+                        .addContainerGap())
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panFacultyLayout.createSequentialGroup()
+                        .addComponent(btn_admin_add_fac, javax.swing.GroupLayout.PREFERRED_SIZE, 85, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(btn_admin_add_fac2, javax.swing.GroupLayout.PREFERRED_SIZE, 85, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(btn_admin_add_fac1, javax.swing.GroupLayout.PREFERRED_SIZE, 85, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+        );
+        panFacultyLayout.setVerticalGroup(
+            panFacultyLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(panFacultyLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jLabel2)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 404, Short.MAX_VALUE)
+                .addGap(9, 9, 9)
+                .addGroup(panFacultyLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(btn_admin_add_fac)
+                    .addComponent(btn_admin_add_fac1)
+                    .addComponent(btn_admin_add_fac2))
+                .addContainerGap())
+        );
+
+        jLabel3.setFont(new java.awt.Font("Segoe UI", 0, 20)); // NOI18N
+        jLabel3.setText("Students");
+
+        jTable2.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null},
+                {null, null, null, null}
+            },
+            new String [] {
+                "Title 1", "Title 2", "Title 3", "Title 4"
+            }
+        ));
+        jScrollPane2.setViewportView(jTable2);
+
+        btn_admin_add_fac3.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        btn_admin_add_fac3.setText("Add");
+        btn_admin_add_fac3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btn_admin_add_fac3ActionPerformed(evt);
+            }
+        });
+
+        btn_admin_add_fac4.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        btn_admin_add_fac4.setText("Update");
+        btn_admin_add_fac4.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btn_admin_add_fac4ActionPerformed(evt);
+            }
+        });
+
+        btn_admin_add_fac5.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        btn_admin_add_fac5.setText("Delete");
+        btn_admin_add_fac5.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btn_admin_add_fac5ActionPerformed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout panStudentsLayout = new javax.swing.GroupLayout(panStudents);
+        panStudents.setLayout(panStudentsLayout);
+        panStudentsLayout.setHorizontalGroup(
+            panStudentsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(panStudentsLayout.createSequentialGroup()
+                .addGroup(panStudentsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(panStudentsLayout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 598, Short.MAX_VALUE))
+                    .addGroup(panStudentsLayout.createSequentialGroup()
+                        .addGap(265, 265, 265)
+                        .addComponent(jLabel3)
+                        .addGap(0, 0, Short.MAX_VALUE)))
+                .addContainerGap())
+            .addGroup(panStudentsLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(btn_admin_add_fac3, javax.swing.GroupLayout.PREFERRED_SIZE, 85, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(btn_admin_add_fac4, javax.swing.GroupLayout.PREFERRED_SIZE, 85, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(btn_admin_add_fac5, javax.swing.GroupLayout.PREFERRED_SIZE, 85, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+        panStudentsLayout.setVerticalGroup(
+            panStudentsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(panStudentsLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jLabel3)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 407, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(panStudentsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(btn_admin_add_fac3)
+                    .addComponent(btn_admin_add_fac5)
+                    .addComponent(btn_admin_add_fac4))
+                .addContainerGap())
+        );
+
+        javax.swing.GroupLayout panTabsLayout = new javax.swing.GroupLayout(panTabs);
+        panTabs.setLayout(panTabsLayout);
+        panTabsLayout.setHorizontalGroup(
+            panTabsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(panFaculty, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addGroup(panTabsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addComponent(panStudents, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+        panTabsLayout.setVerticalGroup(
+            panTabsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(panFaculty, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addGroup(panTabsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addComponent(panStudents, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addGap(0, 0, Short.MAX_VALUE)
-                .addComponent(btn_admin_logout)
-                .addGap(44, 44, 44))
             .addGroup(layout.createSequentialGroup()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(120, 120, 120)
-                        .addComponent(jLabel1))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(130, 130, 130)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(btn_admin_add_std, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(btn_admin_add_fac, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
-                .addContainerGap(138, Short.MAX_VALUE))
+                .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(panTabs, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addGap(47, 47, 47)
-                .addComponent(jLabel1)
-                .addGap(47, 47, 47)
-                .addComponent(btn_admin_add_std)
-                .addGap(34, 34, 34)
-                .addComponent(btn_admin_add_fac)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 38, Short.MAX_VALUE)
-                .addComponent(btn_admin_logout)
-                .addGap(31, 31, 31))
+            .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(panTabs, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
         );
 
         pack();
@@ -108,16 +356,48 @@ public class Admin extends javax.swing.JFrame {
         this.setVisible(false);
     }//GEN-LAST:event_btn_admin_logoutActionPerformed
 
-    private void btn_admin_add_stdActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_admin_add_stdActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_btn_admin_add_stdActionPerformed
-
     private void btn_admin_add_facActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_admin_add_facActionPerformed
         // TODO add your handling code here:
         Admin_Add_Faculty anf = new Admin_Add_Faculty();
         anf.setVisible(true);
-        this.setVisible(false);
     }//GEN-LAST:event_btn_admin_add_facActionPerformed
+
+    private void tabFacultyMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tabFacultyMouseClicked
+        panFaculty.setVisible(true);
+        panStudents.setVisible(false);
+
+        tabFaculty.setBackground(new Color(217,217,217));
+        tabStudents.setBackground(new Color(179,219,246));
+
+    }//GEN-LAST:event_tabFacultyMouseClicked
+
+    private void tabStudentsMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tabStudentsMouseClicked
+        panFaculty.setVisible(false);
+        panStudents.setVisible(true);
+
+        tabStudents.setBackground(new Color(217,217,217));
+        tabFaculty.setBackground(new Color(179,219,246));
+    }//GEN-LAST:event_tabStudentsMouseClicked
+
+    private void btn_admin_add_fac1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_admin_add_fac1ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btn_admin_add_fac1ActionPerformed
+
+    private void btn_admin_add_fac2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_admin_add_fac2ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btn_admin_add_fac2ActionPerformed
+
+    private void btn_admin_add_fac3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_admin_add_fac3ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btn_admin_add_fac3ActionPerformed
+
+    private void btn_admin_add_fac4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_admin_add_fac4ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btn_admin_add_fac4ActionPerformed
+
+    private void btn_admin_add_fac5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_admin_add_fac5ActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btn_admin_add_fac5ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -156,8 +436,26 @@ public class Admin extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btn_admin_add_fac;
-    private javax.swing.JButton btn_admin_add_std;
+    private javax.swing.JButton btn_admin_add_fac1;
+    private javax.swing.JButton btn_admin_add_fac2;
+    private javax.swing.JButton btn_admin_add_fac3;
+    private javax.swing.JButton btn_admin_add_fac4;
+    private javax.swing.JButton btn_admin_add_fac5;
     private javax.swing.JButton btn_admin_logout;
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel4;
+    private javax.swing.JLabel jLabel5;
+    private javax.swing.JPanel jPanel2;
+    private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JScrollPane jScrollPane2;
+    private javax.swing.JTable jTable1;
+    private javax.swing.JTable jTable2;
+    private javax.swing.JPanel panFaculty;
+    private javax.swing.JPanel panStudents;
+    private javax.swing.JPanel panTabs;
+    private javax.swing.JPanel tabFaculty;
+    private javax.swing.JPanel tabStudents;
     // End of variables declaration//GEN-END:variables
 }

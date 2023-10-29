@@ -136,18 +136,14 @@ public class Admin_Add_Faculty extends javax.swing.JFrame {
             pst.setString(1, txt_admin_fac_name.getText());
             pst.setString(2, box_admin_fac_branch.getText());
             pst.setString(3, admin_fac_id.getText());
-//            rs = pst.executeQuery();
 
             int rowsInserted = pst.executeUpdate();
             if (rowsInserted > 0) {
                 JOptionPane.showMessageDialog(this, "Faculty added successfully.", "Sucess", JOptionPane.PLAIN_MESSAGE);
             } else {
                 JOptionPane.showMessageDialog(this, "Some Error Occured.", "Error", JOptionPane.ERROR_MESSAGE);
-
             }
             this.dispose();
-            Admin a = new Admin();
-            a.setVisible(true);
         } catch (Exception e) {
             JOptionPane.showMessageDialog(this, e);
         }
