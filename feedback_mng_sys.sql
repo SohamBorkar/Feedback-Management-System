@@ -62,15 +62,39 @@ CREATE TABLE IF NOT EXISTS `admin` (
 
 -- Data exporting was unselected.
 
+-- Dumping structure for table sql12656946.branches
+CREATE TABLE IF NOT EXISTS `branches` (
+  `branch_id` int(11) NOT NULL AUTO_INCREMENT,
+  `branch_name` varchar(255) NOT NULL,
+  PRIMARY KEY (`branch_id`),
+  UNIQUE KEY `branch_name` (`branch_name`)
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=latin1;
+
+-- Data exporting was unselected.
+
 -- Dumping structure for table sql12656946.faculty
 CREATE TABLE IF NOT EXISTS `faculty` (
   `faculty_name` varchar(255) DEFAULT NULL,
-  `faculty_branch` varchar(100) DEFAULT NULL,
   `faculty_id` int(11) NOT NULL AUTO_INCREMENT,
-  PRIMARY KEY (`faculty_id`)
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=latin1;
+  `branch_id` int(11) DEFAULT NULL,
+  `email` varchar(50) DEFAULT NULL,
+  PRIMARY KEY (`faculty_id`),
+  KEY `branch_id` (`branch_id`),
+  CONSTRAINT `faculty_ibfk_1` FOREIGN KEY (`faculty_id`) REFERENCES `multiuserlogin` (`ID`) ON DELETE CASCADE,
+  CONSTRAINT `faculty_ibfk_2` FOREIGN KEY (`branch_id`) REFERENCES `branches` (`branch_id`)
+) ENGINE=InnoDB AUTO_INCREMENT=94 DEFAULT CHARSET=latin1;
 
 -- Data exporting was unselected.
+
+-- Dumping structure for view sql12656946.FacultyList
+-- Creating temporary table to overcome VIEW dependency errors
+CREATE TABLE `FacultyList` (
+	`faculty_id` INT(11) NOT NULL,
+	`faculty_name` VARCHAR(255) NULL COLLATE 'latin1_swedish_ci',
+	`email` VARCHAR(50) NULL COLLATE 'latin1_swedish_ci',
+	`branch_name` VARCHAR(255) NOT NULL COLLATE 'latin1_swedish_ci',
+	`Password` VARCHAR(16) NOT NULL COLLATE 'latin1_swedish_ci'
+) ENGINE=MyISAM;
 
 -- Dumping structure for table sql12656946.feedbacks
 CREATE TABLE IF NOT EXISTS `feedbacks` (
@@ -82,17 +106,56 @@ CREATE TABLE IF NOT EXISTS `feedbacks` (
   PRIMARY KEY (`feed_id`),
   KEY `fk_by_faculty` (`by_faculty_id`),
   CONSTRAINT `fk_by_faculty` FOREIGN KEY (`by_faculty_id`) REFERENCES `faculty` (`faculty_id`) ON DELETE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=latin1;
 
 -- Data exporting was unselected.
 
+-- Dumping structure for procedure sql12656946.GetQuestionsAndOptionsByFeedId
+DELIMITER //
+CREATE PROCEDURE `GetQuestionsAndOptionsByFeedId`(IN feed_id INT)
+BEGIN
+    SELECT q.que_no, q.question, o.ops1, o.ops2, o.ops3, o.ops4, o.ops5
+    FROM questions q
+    INNER JOIN options o ON q.ops_type = o.ops_type
+    WHERE q.feed_id = feed_id;
+END//
+DELIMITER ;
+
+-- Dumping structure for procedure sql12656946.GetQuestionsByFeedId
+DELIMITER //
+CREATE PROCEDURE `GetQuestionsByFeedId`(IN feedback_id INT)
+BEGIN
+    SELECT q.que_no, q.question, o.ops1, o.ops2, o.ops3, o.ops4, o.ops5
+    FROM questions q
+    INNER JOIN options o ON q.ops_type = o.ops_type
+    WHERE q.feed_id = feedback_id;
+END//
+DELIMITER ;
+
+-- Dumping structure for procedure sql12656946.GetStudentFeedbacks
+DELIMITER //
+CREATE PROCEDURE `GetStudentFeedbacks`(IN student_prn INT)
+BEGIN
+    SELECT
+    	  f.feed_id,
+        f.feed_name AS `Feedback Name`,
+        CONCAT(fac.faculty_name, ' (ID: ', f.by_faculty_id, ')') AS `Created By`,
+        f.no_que AS `No of Questions`,
+        f.feed_time AS `Created On`,
+        IFNULL(sf.is_completed, 'pending') AS `Status`
+    FROM feedbacks f
+    LEFT JOIN std_feedback sf ON f.feed_id = sf.feed_id AND sf.std_prn = student_prn
+    LEFT JOIN faculty fac ON f.by_faculty_id = fac.faculty_id;
+END//
+DELIMITER ;
+
 -- Dumping structure for table sql12656946.multiuserlogin
 CREATE TABLE IF NOT EXISTS `multiuserlogin` (
-  `ID` int(50) NOT NULL,
+  `ID` int(50) NOT NULL AUTO_INCREMENT,
   `Password` varchar(16) NOT NULL,
   `Role` varchar(20) NOT NULL,
   PRIMARY KEY (`ID`)
-) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+) ENGINE=InnoDB AUTO_INCREMENT=103 DEFAULT CHARSET=latin1;
 
 -- Data exporting was unselected.
 
@@ -140,7 +203,7 @@ CREATE TABLE IF NOT EXISTS `std_feedback` (
 -- Dumping structure for table sql12656946.student
 CREATE TABLE IF NOT EXISTS `student` (
   `std_name` varchar(255) DEFAULT NULL,
-  `std_year` smallint(6) DEFAULT NULL,
+  `std_year` varchar(10) DEFAULT NULL,
   `std_rollno` int(11) DEFAULT NULL,
   `std_prn` int(11) NOT NULL AUTO_INCREMENT,
   `std_branch` varchar(100) DEFAULT NULL,
@@ -148,6 +211,11 @@ CREATE TABLE IF NOT EXISTS `student` (
 ) ENGINE=InnoDB AUTO_INCREMENT=107 DEFAULT CHARSET=latin1;
 
 -- Data exporting was unselected.
+
+-- Dumping structure for view sql12656946.FacultyList
+-- Removing temporary table and create final VIEW structure
+DROP TABLE IF EXISTS `FacultyList`;
+CREATE ALGORITHM=UNDEFINED SQL SECURITY DEFINER VIEW `FacultyList` AS select `f`.`faculty_id` AS `faculty_id`,`f`.`faculty_name` AS `faculty_name`,`f`.`email` AS `email`,`b`.`branch_name` AS `branch_name`,`m`.`Password` AS `Password` from ((`faculty` `f` join `branches` `b` on((`f`.`branch_id` = `b`.`branch_id`))) join `multiuserlogin` `m` on((`f`.`faculty_id` = `m`.`ID`)));
 
 /*!40103 SET TIME_ZONE=IFNULL(@OLD_TIME_ZONE, 'system') */;
 /*!40101 SET SQL_MODE=IFNULL(@OLD_SQL_MODE, '') */;

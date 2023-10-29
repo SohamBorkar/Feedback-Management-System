@@ -1,22 +1,24 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
- */
 package com.mycompany.feedback_mng_sys;
 
 import java.awt.Color;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.Statement;
+import javax.swing.JOptionPane;
+import javax.swing.table.DefaultTableModel;
 
-/**
- *
- * @author soham
- */
 public class Admin extends javax.swing.JFrame {
 
-    /**
-     * Creates new form Admin
-     */
+    private Connection conn = null;
+    private PreparedStatement pst = null;
+    private ResultSet rs = null;
+    private String query = null;
+
     public Admin() {
         initComponents();
+        conn = DatabaseConnector.connect();
+        updateFacultyTable();
     }
 
     /**
@@ -40,7 +42,7 @@ public class Admin extends javax.swing.JFrame {
         btn_admin_add_fac = new javax.swing.JButton();
         jLabel2 = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
+        tableFaculty = new javax.swing.JTable();
         btn_admin_add_fac1 = new javax.swing.JButton();
         btn_admin_add_fac2 = new javax.swing.JButton();
         panStudents = new javax.swing.JPanel();
@@ -166,7 +168,8 @@ public class Admin extends javax.swing.JFrame {
         jLabel2.setFont(new java.awt.Font("Segoe UI", 0, 20)); // NOI18N
         jLabel2.setText("Faculty");
 
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+        tableFaculty.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        tableFaculty.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null},
                 {null, null, null, null},
@@ -177,7 +180,8 @@ public class Admin extends javax.swing.JFrame {
                 "Title 1", "Title 2", "Title 3", "Title 4"
             }
         ));
-        jScrollPane1.setViewportView(jTable1);
+        tableFaculty.setRowHeight(25);
+        jScrollPane1.setViewportView(tableFaculty);
 
         btn_admin_add_fac1.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         btn_admin_add_fac1.setText("Delete");
@@ -225,10 +229,11 @@ public class Admin extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 404, Short.MAX_VALUE)
                 .addGap(9, 9, 9)
-                .addGroup(panFacultyLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(btn_admin_add_fac)
+                .addGroup(panFacultyLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(btn_admin_add_fac1)
-                    .addComponent(btn_admin_add_fac2))
+                    .addGroup(panFacultyLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(btn_admin_add_fac)
+                        .addComponent(btn_admin_add_fac2)))
                 .addContainerGap())
         );
 
@@ -303,10 +308,11 @@ public class Admin extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 407, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(panStudentsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(btn_admin_add_fac3)
+                .addGroup(panStudentsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(btn_admin_add_fac5)
-                    .addComponent(btn_admin_add_fac4))
+                    .addGroup(panStudentsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(btn_admin_add_fac3)
+                        .addComponent(btn_admin_add_fac4)))
                 .addContainerGap())
         );
 
@@ -358,7 +364,7 @@ public class Admin extends javax.swing.JFrame {
 
     private void btn_admin_add_facActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_admin_add_facActionPerformed
         // TODO add your handling code here:
-        Admin_Add_Faculty anf = new Admin_Add_Faculty();
+        Admin_Add_Faculty anf = new Admin_Add_Faculty(this);
         anf.setVisible(true);
     }//GEN-LAST:event_btn_admin_add_facActionPerformed
 
@@ -366,8 +372,8 @@ public class Admin extends javax.swing.JFrame {
         panFaculty.setVisible(true);
         panStudents.setVisible(false);
 
-        tabFaculty.setBackground(new Color(217,217,217));
-        tabStudents.setBackground(new Color(179,219,246));
+        tabFaculty.setBackground(new Color(217, 217, 217));
+        tabStudents.setBackground(new Color(179, 219, 246));
 
     }//GEN-LAST:event_tabFacultyMouseClicked
 
@@ -375,8 +381,8 @@ public class Admin extends javax.swing.JFrame {
         panFaculty.setVisible(false);
         panStudents.setVisible(true);
 
-        tabStudents.setBackground(new Color(217,217,217));
-        tabFaculty.setBackground(new Color(179,219,246));
+        tabStudents.setBackground(new Color(217, 217, 217));
+        tabFaculty.setBackground(new Color(179, 219, 246));
     }//GEN-LAST:event_tabStudentsMouseClicked
 
     private void btn_admin_add_fac1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_admin_add_fac1ActionPerformed
@@ -450,12 +456,40 @@ public class Admin extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel2;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
-    private javax.swing.JTable jTable1;
     private javax.swing.JTable jTable2;
     private javax.swing.JPanel panFaculty;
     private javax.swing.JPanel panStudents;
     private javax.swing.JPanel panTabs;
     private javax.swing.JPanel tabFaculty;
     private javax.swing.JPanel tabStudents;
+    private javax.swing.JTable tableFaculty;
     // End of variables declaration//GEN-END:variables
+
+    public void updateFacultyTable() {
+        try {
+            query = "SELECT * FROM FacultyList";
+            pst = conn.prepareStatement(query);
+            rs = pst.executeQuery();
+            
+            DefaultTableModel model = new DefaultTableModel();
+            model.addColumn("Id");
+            model.addColumn("Name");
+            model.addColumn("Email");
+            model.addColumn("Branch");
+            model.addColumn("Password");
+
+            while (rs.next()) {
+                Object[] row = new Object[5]; // Change 5 to the number of columns
+                for (int i = 1; i <= 5; i++) { // Change 5 to the number of columns
+                    row[i - 1] = rs.getObject(i);
+                }
+                model.addRow(row);
+            }
+
+            tableFaculty.setModel(model);
+        } catch (Exception e) {
+            e.printStackTrace();
+            JOptionPane.showMessageDialog(this, e, "Error", JOptionPane.ERROR_MESSAGE);
+        }
+    }
 }

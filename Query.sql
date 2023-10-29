@@ -43,7 +43,7 @@ CALL DropTables();
 DROP PROCEDURE IF EXISTS DropTables;
 -- ---------------------------------------------------------------
 
-
+facultyfaculty
 ALTER TABLE multiuserlogin
 ADD PRIMARY KEY (id);
 
@@ -51,8 +51,8 @@ INSERT INTO multiuserlogin VALUES(100,'amey123','Student');
 INSERT INTO multiuserlogin VALUES(101,'soham123','Student');
 INSERT INTO multiuserlogin VALUES(102,'pratik123','Student');
 
-INSERT INTO multiuserlogin VALUES(1,'fac1','Faculty');
-INSERT INTO multiuserlogin VALUES(2,'fac2','Faculty');feedbacksfeedbacks
+INSERT INTO multiuserlogin('' VALUES(1,'fac1','Faculty');
+INSERT INTO multiuserlogin VALUES(2,'fac2','Faculty');
 INSERT INTO multiuserlogin VALUES(3,'fac3','Faculty');
 INSERT INTO multiuserlogin VALUES(4,'fac4','Faculty');
 
@@ -64,7 +64,7 @@ CREATE TABLE feedbacks (
     feed_name VARCHAR(255),
     feed_time TIMESTAMP
 );
-ALTER TABLE feedbacks
+ALTER TABLE feedbacksmultiuserlogin
 ADD COLUMN by_faculty_id INT;
 
 ALTER TABLE feedbacks
@@ -119,10 +119,50 @@ DELIMITER ;
 
 CALL GetQuestionsByFeedId(4);
 CALL GetStudentFeedbacks(100);
-feedbacks
-ALTER TABLE student
-MODIFY std_year VARCHAR(10);
-student
 
+CREATE VIEW FacultyList AS
+SELECT f.faculty_id, f.faculty_name, f.email, b.branch_name, m.Password
+FROM faculty f
+JOIN branches b ON f.branch_id = b.branch_id
+JOIN multiuserlogin m ON f.faculty_id = m.ID;
+
+SELECT * FROM FacultyList;
+
+DELIMITER //
+CREATE PROCEDURE `AddFaculty`(
+    IN faculty_name VARCHAR(255),
+    IN branch_name VARCHAR(255),
+    IN email VARCHAR(50),
+    IN password VARCHAR(16)
+)
+BEGIN
+    -- Declare a variable for the new faculty ID
+    DECLARE new_faculty_id INT;
+    DECLARE branch_id INT;
+
+    -- Get the branch_id based on the branch_name
+    SELECT branch_id INTO branch_id FROM branches WHERE branch_name = branch_name LIMIT 1;
+
+    -- Insert a new row into the multiuserlogin table to generate a new faculty ID
+    INSERT INTO multiuserlogin (Password, Role)
+    VALUES (password, 'faculty');
+
+    -- Get the auto-generated faculty ID
+    SET new_faculty_id = LAST_INSERT_ID();
+
+    -- Insert a new row into the faculty table with the generated faculty ID and the resolved branch_id
+    INSERT INTO faculty (faculty_name, branch_id, email, faculty_id)
+    VALUES (faculty_name, branch_id, email, new_faculty_id);
+
+    -- Commit the transaction
+    COMMIT;
+END//
+DELIMITER ;
+
+
+
+
+
+CALL AddFaculty('Soham Borkar', 'Chemical Engineering', 'soham@email.com', 'abcd123');
 
 

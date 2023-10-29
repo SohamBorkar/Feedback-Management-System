@@ -9,24 +9,23 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.Arrays;
+import javax.swing.DefaultComboBoxModel;
 import javax.swing.JOptionPane;
 
-/**
- *
- * @author Dell
- */
 public class Admin_Add_Faculty extends javax.swing.JFrame {
 
     private Connection conn = null;
     private PreparedStatement pst = null;
     private ResultSet rs = null;
+    private String query = null;
+    private Admin parent = null;
 
-    /**
-     * Creates new form Admin_Add_Faculty
-     */
-    public Admin_Add_Faculty() {
+    public Admin_Add_Faculty(Admin parent) {
         initComponents();
+        this.parent = parent;
         conn = DatabaseConnector.connect();
+        getBranches();
     }
 
     /**
@@ -40,25 +39,26 @@ public class Admin_Add_Faculty extends javax.swing.JFrame {
 
         jLabel1 = new javax.swing.JLabel();
         jLabel2 = new javax.swing.JLabel();
-        jLabel3 = new javax.swing.JLabel();
-        jLabel4 = new javax.swing.JLabel();
         jButton1 = new javax.swing.JButton();
-        txt_admin_fac_name = new javax.swing.JTextField();
-        admin_fac_id = new javax.swing.JTextField();
-        box_admin_fac_branch = new javax.swing.JTextField();
+        txtName = new javax.swing.JTextField();
+        jLabel5 = new javax.swing.JLabel();
+        jLabel6 = new javax.swing.JLabel();
+        cbBranches = new javax.swing.JComboBox<>();
+        jLabel7 = new javax.swing.JLabel();
+        txtEmail = new javax.swing.JTextField();
+        txtPass = new javax.swing.JPasswordField();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setTitle("Add Faculty");
         setResizable(false);
 
-        jLabel1.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        jLabel1.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
         jLabel1.setText("Add Faculty Details");
 
-        jLabel2.setText("Faculty Name");
+        jLabel2.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        jLabel2.setText("Name:");
 
-        jLabel3.setText("Faculty Branch");
-
-        jLabel4.setText("Faculty ID");
-
+        jButton1.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         jButton1.setText("Add Faculty");
         jButton1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -66,58 +66,79 @@ public class Admin_Add_Faculty extends javax.swing.JFrame {
             }
         });
 
-        box_admin_fac_branch.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                box_admin_fac_branchActionPerformed(evt);
-            }
-        });
+        txtName.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+
+        jLabel5.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        jLabel5.setText("Email: ");
+
+        jLabel6.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        jLabel6.setText("Branch");
+
+        cbBranches.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        cbBranches.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+
+        jLabel7.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        jLabel7.setText("Password:");
+
+        txtEmail.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+
+        txtPass.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(94, 94, 94)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(jLabel3, javax.swing.GroupLayout.DEFAULT_SIZE, 87, Short.MAX_VALUE)
-                    .addComponent(jLabel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(jLabel4, javax.swing.GroupLayout.PREFERRED_SIZE, 65, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addComponent(txt_admin_fac_name, javax.swing.GroupLayout.DEFAULT_SIZE, 139, Short.MAX_VALUE)
-                    .addComponent(admin_fac_id)
-                    .addComponent(box_admin_fac_branch))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addContainerGap(144, Short.MAX_VALUE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 131, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(125, 125, 125))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                        .addComponent(jButton1)
-                        .addGap(149, 149, 149))))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(115, 115, 115)
+                        .addComponent(jButton1))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(39, 39, 39)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(jLabel2, javax.swing.GroupLayout.PREFERRED_SIZE, 87, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(txtName, javax.swing.GroupLayout.PREFERRED_SIZE, 164, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(layout.createSequentialGroup()
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jLabel5, javax.swing.GroupLayout.PREFERRED_SIZE, 87, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(jLabel6, javax.swing.GroupLayout.PREFERRED_SIZE, 87, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(jLabel7, javax.swing.GroupLayout.PREFERRED_SIZE, 87, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                    .addComponent(cbBranches, 0, 164, Short.MAX_VALUE)
+                                    .addComponent(txtEmail)
+                                    .addComponent(txtPass)))))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(96, 96, 96)
+                        .addComponent(jLabel1)))
+                .addContainerGap(46, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(26, 26, 26)
+                .addGap(14, 14, 14)
                 .addComponent(jLabel1)
-                .addGap(44, 44, 44)
+                .addGap(26, 26, 26)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel2)
-                    .addComponent(txt_admin_fac_name, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 33, Short.MAX_VALUE)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel3)
-                    .addComponent(box_admin_fac_branch, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(27, 27, 27)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(jLabel4)
-                    .addComponent(admin_fac_id, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(32, 32, 32)
+                    .addComponent(txtName, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel5)
+                    .addComponent(txtEmail, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel6)
+                    .addComponent(cbBranches, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel7)
+                    .addComponent(txtPass, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
                 .addComponent(jButton1)
-                .addGap(29, 29, 29))
+                .addContainerGap(16, Short.MAX_VALUE))
         );
 
         pack();
@@ -125,33 +146,24 @@ public class Admin_Add_Faculty extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        // TODO add your handling code here:
-        if (!isValidate()) {
-            JOptionPane.showMessageDialog(this, "Fill up all the Fields.", "Warning", JOptionPane.WARNING_MESSAGE);
-            return;
-        }
         try {
-            String query = "INSERT INTO faculty (faculty_name, faculty_branch, faculty_id) VALUES (?, ?, ?)";
+            query = "CALL AddFaculty(?, ?, ?, ?)";
             pst = conn.prepareStatement(query);
-            pst.setString(1, txt_admin_fac_name.getText());
-            pst.setString(2, box_admin_fac_branch.getText());
-            pst.setString(3, admin_fac_id.getText());
-
-            int rowsInserted = pst.executeUpdate();
-            if (rowsInserted > 0) {
-                JOptionPane.showMessageDialog(this, "Faculty added successfully.", "Sucess", JOptionPane.PLAIN_MESSAGE);
-            } else {
-                JOptionPane.showMessageDialog(this, "Some Error Occured.", "Error", JOptionPane.ERROR_MESSAGE);
+            pst.setString(1, txtName.getText());
+            pst.setString(2, cbBranches.getSelectedItem().toString());
+            pst.setString(3, txtEmail.getText());
+            pst.setString(4, txtPass.getText());
+            rs = pst.executeQuery();
+            if (rs.next()) {
+                this.dispose();
+                parent.updateFacultyTable();
+                JOptionPane.showMessageDialog(this, "Faculty added successfully!");
             }
-            this.dispose();
         } catch (Exception e) {
-            JOptionPane.showMessageDialog(this, e);
+            e.printStackTrace();
+            JOptionPane.showMessageDialog(this, e, "Error", JOptionPane.ERROR_MESSAGE);
         }
     }//GEN-LAST:event_jButton1ActionPerformed
-
-    private void box_admin_fac_branchActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_box_admin_fac_branchActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_box_admin_fac_branchActionPerformed
 
     /**
      * @param args the command line arguments
@@ -189,21 +201,35 @@ public class Admin_Add_Faculty extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JTextField admin_fac_id;
-    private javax.swing.JTextField box_admin_fac_branch;
+    private javax.swing.JComboBox<String> cbBranches;
     private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
-    private javax.swing.JLabel jLabel3;
-    private javax.swing.JLabel jLabel4;
-    private javax.swing.JTextField txt_admin_fac_name;
+    private javax.swing.JLabel jLabel5;
+    private javax.swing.JLabel jLabel6;
+    private javax.swing.JLabel jLabel7;
+    private javax.swing.JTextField txtEmail;
+    private javax.swing.JTextField txtName;
+    private javax.swing.JPasswordField txtPass;
     // End of variables declaration//GEN-END:variables
 
-    private boolean isValidate() {
-        if ("".equals(txt_admin_fac_name.getText()) || "".equals(box_admin_fac_branch.getText()) || "".equals(admin_fac_id.getText())) {
-//                JOptionPane.showMessageDialog(this, "Please fill in all the required fields.", "Warning", JOptionPane.WARNING_MESSAGE);
-            return false;
+    private void getBranches() {
+        try {
+            query = "SELECT * FROM branches";
+            pst = conn.prepareStatement(query);
+            rs = pst.executeQuery();
+
+            DefaultComboBoxModel<String> comboBoxModel = new DefaultComboBoxModel<>();
+
+            while (rs.next()) {
+                comboBoxModel.addElement(rs.getString("branch_name"));
+            }
+
+            cbBranches.setModel(comboBoxModel);
+        } catch (Exception e) {
+            e.printStackTrace();
+            JOptionPane.showMessageDialog(this, e, "Error", JOptionPane.ERROR_MESSAGE);
         }
-        return true;
     }
+
 }
