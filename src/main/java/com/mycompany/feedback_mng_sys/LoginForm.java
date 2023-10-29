@@ -45,6 +45,11 @@ public class LoginForm extends javax.swing.JFrame {
 
         combobox_role.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         combobox_role.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Student", "Faculty", "Admin" }));
+        combobox_role.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                combobox_roleActionPerformed(evt);
+            }
+        });
 
         txt_id.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         txt_id.addActionListener(new java.awt.event.ActionListener() {
@@ -145,6 +150,10 @@ public class LoginForm extends javax.swing.JFrame {
     private void txt_idActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txt_idActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_txt_idActionPerformed
+
+    private void combobox_roleActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_combobox_roleActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_combobox_roleActionPerformed
 
     public static void main(String args[]) {
         /* Set the Nimbus look and feel */

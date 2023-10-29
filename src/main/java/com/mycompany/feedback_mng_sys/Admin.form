@@ -80,6 +80,9 @@
         </Property>
         <Property name="text" type="java.lang.String" value="Add Student"/>
       </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btn_admin_add_stdActionPerformed"/>
+      </Events>
     </Component>
     <Component class="javax.swing.JButton" name="btn_admin_add_fac">
       <Properties>
@@ -88,6 +91,9 @@
         </Property>
         <Property name="text" type="java.lang.String" value="Add Faculty"/>
       </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btn_admin_add_facActionPerformed"/>
+      </Events>
     </Component>
     <Component class="javax.swing.JButton" name="btn_admin_logout">
       <Properties>

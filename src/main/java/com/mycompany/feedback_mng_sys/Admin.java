@@ -40,9 +40,19 @@ public class Admin extends javax.swing.JFrame {
 
         btn_admin_add_std.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         btn_admin_add_std.setText("Add Student");
+        btn_admin_add_std.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btn_admin_add_stdActionPerformed(evt);
+            }
+        });
 
         btn_admin_add_fac.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         btn_admin_add_fac.setText("Add Faculty");
+        btn_admin_add_fac.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btn_admin_add_facActionPerformed(evt);
+            }
+        });
 
         btn_admin_logout.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         btn_admin_logout.setText("Log Out");
@@ -97,6 +107,17 @@ public class Admin extends javax.swing.JFrame {
         lf.setVisible(true);
         this.setVisible(false);
     }//GEN-LAST:event_btn_admin_logoutActionPerformed
+
+    private void btn_admin_add_stdActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_admin_add_stdActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_btn_admin_add_stdActionPerformed
+
+    private void btn_admin_add_facActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_admin_add_facActionPerformed
+        // TODO add your handling code here:
+        Admin_Add_Faculty anf = new Admin_Add_Faculty();
+        anf.setVisible(true);
+        this.setVisible(false);
+    }//GEN-LAST:event_btn_admin_add_facActionPerformed
 
     /**
      * @param args the command line arguments
