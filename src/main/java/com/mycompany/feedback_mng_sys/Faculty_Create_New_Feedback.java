@@ -120,14 +120,14 @@ public class Faculty_Create_New_Feedback extends javax.swing.JFrame {
         } else {
             try {
                 String feedbackId = addFeedback(feedbackName, numQuestions);
-                String tableName = createFeedbackTable(feedbackId);
+                addStdFeedbackEntries(feedbackId);
                 JOptionPane.showMessageDialog(this, "Feedback created successfully!", "Sucess", JOptionPane.PLAIN_MESSAGE);
-                
+
                 // forwarding to the next page of add question in the feeback
                 this.setVisible(false);
-                SetQuestions sq = new SetQuestions(feedbackId, tableName, numQuestions, loggedUserId);
+                SetQuestions sq = new SetQuestions(feedbackId, numQuestions, loggedUserId);
                 sq.setVisible(true);
-                
+
             } catch (Exception e) {
                 e.printStackTrace();
                 JOptionPane.showMessageDialog(this, e, "Error", JOptionPane.ERROR_MESSAGE);
@@ -211,23 +211,18 @@ public class Faculty_Create_New_Feedback extends javax.swing.JFrame {
         return generatedFeedId;
     }
 
-    private String createFeedbackTable(String feedbackId) {
-        String tableName = "feedback_" + feedbackId;
+    private void addStdFeedbackEntries(String feedbackId) {
         try {
-            // Construct the SQL query as a string
-            query = "CREATE TABLE " + tableName + " (que_id INT PRIMARY KEY, question VARCHAR(255), ops_type VARCHAR(255))";
-
-            // Execute the SQL query using your database connection
-            Statement stmt = conn.createStatement();
-            stmt.executeUpdate(query);
-
-            // Close the statement
-            stmt.close();
-//        JOptionPane.showMessageDialog(this, "Table created succesfuly!");
+            query = "CALL AddFeedbackForAllStudents(?)";
+            pst = conn.prepareStatement(query, PreparedStatement.RETURN_GENERATED_KEYS);
+            pst.setString(1, feedbackId);
+            pst.executeUpdate();
+            
         } catch (Exception e) {
-            JOptionPane.showMessageDialog(this, e);
+            e.printStackTrace();
+            JOptionPane.showMessageDialog(this, e, "Error", JOptionPane.ERROR_MESSAGE);
         }
-        return tableName;
+
     }
 
 }

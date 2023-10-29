@@ -17,15 +17,15 @@ public class SetQuestions extends javax.swing.JFrame {
     private DefaultListModel<String> listModel;
     private int currQue = 1;
     private int totalQue;
-    private String tableName = null;
+    private String feedbackId = null;
     private String selectedOpsType = null;
     private String loggedUserId;
 
-    public SetQuestions(String feedbackId, String tableName, int numQuestions, String loggedUserId) {
+    public SetQuestions(String feedbackId, int numQuestions, String loggedUserId) {
         initComponents();
         conn = DatabaseConnector.connect();
         totalQue = numQuestions;
-        this.tableName = tableName;
+        this.feedbackId = feedbackId;
         this.loggedUserId = loggedUserId;
         txtTotalQue.setText(Integer.toString(numQuestions));
         txtQueNo.setText(Integer.toString(currQue));
@@ -329,7 +329,6 @@ public class SetQuestions extends javax.swing.JFrame {
             java.util.logging.Logger.getLogger(SetQuestions.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
         }
         //</editor-fold>
-
         /* Create and display the form */
 //        java.awt.EventQueue.invokeLater(new Runnable() {
 //            public void run() {
@@ -403,6 +402,7 @@ public class SetQuestions extends javax.swing.JFrame {
                     txtOps5.setText(rs.getString("ops5"));
                 } catch (Exception e) {
                     e.printStackTrace();
+                    JOptionPane.showMessageDialog(this, e, "Error", JOptionPane.ERROR_MESSAGE);
                 }
             }
         }
@@ -410,12 +410,13 @@ public class SetQuestions extends javax.swing.JFrame {
 
     private void insertQuestion() {
         try {
-            String query = "INSERT INTO " + tableName + " (que_id, question, ops_type) VALUES (?, ?, ?) "
+            String query = "INSERT INTO questions (que_no, feed_id, question, ops_type) VALUES (?, ?, ?, ?) "
                     + "ON DUPLICATE KEY UPDATE question = VALUES(question), ops_type = VALUES(ops_type)";
             pst = conn.prepareStatement(query, PreparedStatement.RETURN_GENERATED_KEYS);
             pst.setInt(1, currQue);
-            pst.setString(2, txtaQue.getText());
-            pst.setString(3, selectedOpsType);
+            pst.setString(2, feedbackId);
+            pst.setString(3, txtaQue.getText());
+            pst.setString(4, selectedOpsType);
 
             int rowsAffected = pst.executeUpdate();
 
