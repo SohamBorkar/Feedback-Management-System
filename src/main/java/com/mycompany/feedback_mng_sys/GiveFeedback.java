@@ -1,24 +1,32 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
- */
 package com.mycompany.feedback_mng_sys;
 
-/**
- *
- * @author Dell
- */
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import javax.swing.JOptionPane;
+
 public class GiveFeedback extends javax.swing.JFrame {
 
+    private Connection conn = null;
+    private PreparedStatement pst = null;
+    private ResultSet rs = null;
+    private String query = null;
     private int curQue = 1;
-    
+    private int totalQue;
+    private int feedbackId;
+
     public GiveFeedback(String feedbackId, String feedName, String totalQes, String createdBy, String createdOn) {
         initComponents();
+        conn = DatabaseConnector.connect();
+        totalQue = Integer.parseInt(totalQes);
+        this.feedbackId = Integer.parseInt(feedbackId);
         txtQuestion.setText("<html>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</html>");
         txtFeedName.setText(feedName);
         txtTotalQue.setText(totalQes);
         txtCreatedBy.setText(createdBy);
         txtCreatedOn.setText(createdOn);
+        txtQueNo.setText("Q. " + Integer.toString(curQue) + ".");
+        updateQuestion();
     }
 
     @SuppressWarnings("unchecked")
@@ -44,7 +52,7 @@ public class GiveFeedback extends javax.swing.JFrame {
         jRadioButton4 = new javax.swing.JRadioButton();
         jRadioButton5 = new javax.swing.JRadioButton();
         btnNext = new javax.swing.JButton();
-        btnPrevious1 = new javax.swing.JButton();
+        btnPrevious = new javax.swing.JButton();
         btnCancle = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -104,6 +112,7 @@ public class GiveFeedback extends javax.swing.JFrame {
             }
         });
 
+        options.add(jRadioButton5);
         jRadioButton5.setText("jRadioButton5");
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
@@ -113,18 +122,19 @@ public class GiveFeedback extends javax.swing.JFrame {
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addGap(18, 18, 18)
                 .addComponent(txtQueNo, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(txtQuestion, javax.swing.GroupLayout.PREFERRED_SIZE, 553, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(62, 62, 62)
+                        .addGap(68, 68, 68)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jRadioButton5)
                             .addComponent(jRadioButton3)
                             .addComponent(jRadioButton1)
                             .addComponent(jRadioButton2)
-                            .addComponent(jRadioButton4))))
-                .addContainerGap(23, Short.MAX_VALUE))
+                            .addComponent(jRadioButton4)))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(txtQuestion, javax.swing.GroupLayout.PREFERRED_SIZE, 555, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(95, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -148,9 +158,20 @@ public class GiveFeedback extends javax.swing.JFrame {
 
         btnNext.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         btnNext.setText("Next >");
+        btnNext.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnNextActionPerformed(evt);
+            }
+        });
 
-        btnPrevious1.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        btnPrevious1.setText("< Previous");
+        btnPrevious.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        btnPrevious.setText("< Previous");
+        btnPrevious.setEnabled(false);
+        btnPrevious.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnPreviousActionPerformed(evt);
+            }
+        });
 
         btnCancle.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         btnCancle.setText("Cancle");
@@ -163,44 +184,47 @@ public class GiveFeedback extends javax.swing.JFrame {
                 .addGap(257, 257, 257)
                 .addComponent(jLabel5)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addGap(0, 23, Short.MAX_VALUE)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(btnPrevious1)
-                        .addGap(18, 18, 18)
-                        .addComponent(btnNext, javax.swing.GroupLayout.PREFERRED_SIZE, 97, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
-                        .addComponent(btnCancle, javax.swing.GroupLayout.PREFERRED_SIZE, 97, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(27, 27, 27))
             .addGroup(layout.createSequentialGroup()
                 .addGap(33, 33, 33)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(jLabel1)
+                        .addGap(0, 0, Short.MAX_VALUE)
+                        .addComponent(btnPrevious)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(txtFeedName))
+                        .addComponent(btnNext, javax.swing.GroupLayout.PREFERRED_SIZE, 97, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(btnCancle, javax.swing.GroupLayout.PREFERRED_SIZE, 97, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(29, 29, 29))
                     .addGroup(layout.createSequentialGroup()
-                        .addComponent(jLabel2)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(txtCreatedBy)))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(jLabel3)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(txtTotalQue))
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(jLabel4)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(txtCreatedOn)))
-                .addGap(140, 140, 140))
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(jLabel1)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(txtFeedName))
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(jLabel2)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(txtCreatedBy)))
+                        .addGap(68, 68, 68)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(jLabel3)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(txtTotalQue))
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(jLabel4)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(txtCreatedOn)))
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+            .addGroup(layout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addContainerGap())
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(15, 15, 15)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(jLabel5)
                 .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
@@ -214,19 +238,44 @@ public class GiveFeedback extends javax.swing.JFrame {
                     .addComponent(jLabel4)
                     .addComponent(txtCreatedBy)
                     .addComponent(txtCreatedOn))
-                .addGap(18, 18, 18)
-                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(btnCancle)
+                    .addComponent(btnPrevious)
                     .addComponent(btnNext)
-                    .addComponent(btnPrevious1))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addComponent(btnCancle))
+                .addGap(12, 12, 12))
         );
 
         pack();
         setLocationRelativeTo(null);
     }// </editor-fold>//GEN-END:initComponents
+
+    private void btnNextActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNextActionPerformed
+        if (curQue == totalQue) {
+            JOptionPane.showMessageDialog(this, "Feedback submitted successfully!");
+        } else {
+            curQue++;
+            btnPrevious.setEnabled(true);
+            txtQueNo.setText("Q. " + Integer.toString(curQue) + ".");
+            updateQuestion();
+            options.clearSelection();
+            if (curQue == totalQue) {
+                btnNext.setText("Submit");
+            }
+        }
+    }//GEN-LAST:event_btnNextActionPerformed
+
+    private void btnPreviousActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPreviousActionPerformed
+        btnNext.setText("Next");
+        curQue--;
+        txtQueNo.setText("Q. " + Integer.toString(curQue) + ".");
+        updateQuestion();
+        if (curQue == 1) {
+            btnPrevious.setEnabled(false);
+        }
+    }//GEN-LAST:event_btnPreviousActionPerformed
 
     private void jRadioButton4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jRadioButton4ActionPerformed
         // TODO add your handling code here:
@@ -270,7 +319,7 @@ public class GiveFeedback extends javax.swing.JFrame {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnCancle;
     private javax.swing.JButton btnNext;
-    private javax.swing.JButton btnPrevious1;
+    private javax.swing.JButton btnPrevious;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
@@ -290,4 +339,28 @@ public class GiveFeedback extends javax.swing.JFrame {
     private javax.swing.JLabel txtQuestion;
     private javax.swing.JLabel txtTotalQue;
     // End of variables declaration//GEN-END:variables
+
+    private void updateQuestion() {
+        try {
+            query = "CALL GetQuestionByFeedId(?,?)";
+            pst = conn.prepareStatement(query);
+            pst.setInt(1, feedbackId);
+            pst.setInt(2, curQue);
+            rs = pst.executeQuery();
+
+            if (rs.next()) {
+                txtQuestion.setText(rs.getString("question"));
+                jRadioButton1.setText(rs.getString("ops1"));
+                jRadioButton2.setText(rs.getString("ops2"));
+                jRadioButton3.setText(rs.getString("ops3"));
+                jRadioButton4.setText(rs.getString("ops4"));
+                jRadioButton5.setText(rs.getString("ops5"));
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            JOptionPane.showMessageDialog(this, e, "Error", JOptionPane.ERROR_MESSAGE);
+        }
+
+    }
 }

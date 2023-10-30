@@ -4,21 +4,36 @@ import java.awt.Color;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
-import java.sql.Statement;
 import javax.swing.JOptionPane;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
 import javax.swing.table.DefaultTableModel;
 
-public class Admin extends javax.swing.JFrame {
+public final class Admin extends javax.swing.JFrame {
 
     private Connection conn = null;
     private PreparedStatement pst = null;
     private ResultSet rs = null;
     private String query = null;
+    private String selectedFacultyId = null;
 
     public Admin() {
         initComponents();
         conn = DatabaseConnector.connect();
         updateFacultyTable();
+        tableFaculty.getSelectionModel().addListSelectionListener(new ListSelectionListener() {
+            @Override
+            public void valueChanged(ListSelectionEvent e) {
+                if (!e.getValueIsAdjusting()) {
+                    int selectedRow = tableFaculty.getSelectedRow();
+                    if (selectedRow >= 0) {
+                        selectedFacultyId = tableFaculty.getValueAt(selectedRow, 0).toString();
+                        btnUpdate.setEnabled(true);
+                        btnDelete.setEnabled(true);
+                    }
+                }
+            }
+        });
     }
 
     /**
@@ -39,12 +54,12 @@ public class Admin extends javax.swing.JFrame {
         btn_admin_logout = new javax.swing.JButton();
         panTabs = new javax.swing.JPanel();
         panFaculty = new javax.swing.JPanel();
-        btn_admin_add_fac = new javax.swing.JButton();
+        btnAdd = new javax.swing.JButton();
         jLabel2 = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
         tableFaculty = new javax.swing.JTable();
-        btn_admin_add_fac1 = new javax.swing.JButton();
-        btn_admin_add_fac2 = new javax.swing.JButton();
+        btnDelete = new javax.swing.JButton();
+        btnUpdate = new javax.swing.JButton();
         panStudents = new javax.swing.JPanel();
         jLabel3 = new javax.swing.JLabel();
         jScrollPane2 = new javax.swing.JScrollPane();
@@ -157,11 +172,11 @@ public class Admin extends javax.swing.JFrame {
 
         panTabs.setBackground(new java.awt.Color(255, 255, 255));
 
-        btn_admin_add_fac.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        btn_admin_add_fac.setText("Add");
-        btn_admin_add_fac.addActionListener(new java.awt.event.ActionListener() {
+        btnAdd.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        btnAdd.setText("Add");
+        btnAdd.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btn_admin_add_facActionPerformed(evt);
+                btnAddActionPerformed(evt);
             }
         });
 
@@ -183,19 +198,21 @@ public class Admin extends javax.swing.JFrame {
         tableFaculty.setRowHeight(25);
         jScrollPane1.setViewportView(tableFaculty);
 
-        btn_admin_add_fac1.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        btn_admin_add_fac1.setText("Delete");
-        btn_admin_add_fac1.addActionListener(new java.awt.event.ActionListener() {
+        btnDelete.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        btnDelete.setText("Delete");
+        btnDelete.setEnabled(false);
+        btnDelete.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btn_admin_add_fac1ActionPerformed(evt);
+                btnDeleteActionPerformed(evt);
             }
         });
 
-        btn_admin_add_fac2.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        btn_admin_add_fac2.setText("Update");
-        btn_admin_add_fac2.addActionListener(new java.awt.event.ActionListener() {
+        btnUpdate.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        btnUpdate.setText("Update");
+        btnUpdate.setEnabled(false);
+        btnUpdate.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btn_admin_add_fac2ActionPerformed(evt);
+                btnUpdateActionPerformed(evt);
             }
         });
 
@@ -214,11 +231,11 @@ public class Admin extends javax.swing.JFrame {
                         .addComponent(jScrollPane1)
                         .addContainerGap())
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panFacultyLayout.createSequentialGroup()
-                        .addComponent(btn_admin_add_fac, javax.swing.GroupLayout.PREFERRED_SIZE, 85, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(btnAdd, javax.swing.GroupLayout.PREFERRED_SIZE, 85, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(btn_admin_add_fac2, javax.swing.GroupLayout.PREFERRED_SIZE, 85, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(btnUpdate, javax.swing.GroupLayout.PREFERRED_SIZE, 85, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(btn_admin_add_fac1, javax.swing.GroupLayout.PREFERRED_SIZE, 85, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(btnDelete, javax.swing.GroupLayout.PREFERRED_SIZE, 85, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
         );
         panFacultyLayout.setVerticalGroup(
@@ -230,10 +247,10 @@ public class Admin extends javax.swing.JFrame {
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 404, Short.MAX_VALUE)
                 .addGap(9, 9, 9)
                 .addGroup(panFacultyLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(btn_admin_add_fac1)
+                    .addComponent(btnDelete)
                     .addGroup(panFacultyLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(btn_admin_add_fac)
-                        .addComponent(btn_admin_add_fac2)))
+                        .addComponent(btnAdd)
+                        .addComponent(btnUpdate)))
                 .addContainerGap())
         );
 
@@ -362,11 +379,11 @@ public class Admin extends javax.swing.JFrame {
         this.setVisible(false);
     }//GEN-LAST:event_btn_admin_logoutActionPerformed
 
-    private void btn_admin_add_facActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_admin_add_facActionPerformed
+    private void btnAddActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddActionPerformed
         // TODO add your handling code here:
         Admin_Add_Faculty anf = new Admin_Add_Faculty(this);
         anf.setVisible(true);
-    }//GEN-LAST:event_btn_admin_add_facActionPerformed
+    }//GEN-LAST:event_btnAddActionPerformed
 
     private void tabFacultyMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tabFacultyMouseClicked
         panFaculty.setVisible(true);
@@ -385,29 +402,49 @@ public class Admin extends javax.swing.JFrame {
         tabFaculty.setBackground(new Color(179, 219, 246));
     }//GEN-LAST:event_tabStudentsMouseClicked
 
-    private void btn_admin_add_fac1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_admin_add_fac1ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_btn_admin_add_fac1ActionPerformed
+    private void btnDeleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDeleteActionPerformed
+        try {
+            // Ask the user for confirmation before deleting
+            int confirmation = JOptionPane.showConfirmDialog(this, "Are you sure you want to delete this faculty?", "Confirm Deletion", JOptionPane.YES_NO_OPTION);
 
-    private void btn_admin_add_fac2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_admin_add_fac2ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_btn_admin_add_fac2ActionPerformed
+            if (confirmation == JOptionPane.YES_OPTION) {
+                // The user confirmed the deletion
+                query = "DELETE FROM multiuserlogin WHERE ID = ?";
+                pst = conn.prepareStatement(query);
+                pst.setString(1, selectedFacultyId);
+                int rows = pst.executeUpdate();
+
+                if (rows > 0) {
+                    JOptionPane.showMessageDialog(this, "Faculty deleted successfully!");
+                    updateFacultyTable();
+                }
+            } else {
+                // The user canceled the deletion
+                JOptionPane.showMessageDialog(this, "Deletion canceled.");
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            JOptionPane.showMessageDialog(this, e, "Error", JOptionPane.ERROR_MESSAGE);
+        }
+
+    }//GEN-LAST:event_btnDeleteActionPerformed
+
+    private void btnUpdateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnUpdateActionPerformed
+
+    }//GEN-LAST:event_btnUpdateActionPerformed
 
     private void btn_admin_add_fac3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_admin_add_fac3ActionPerformed
-        // TODO add your handling code here:
+
     }//GEN-LAST:event_btn_admin_add_fac3ActionPerformed
 
     private void btn_admin_add_fac4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_admin_add_fac4ActionPerformed
-        // TODO add your handling code here:
+
     }//GEN-LAST:event_btn_admin_add_fac4ActionPerformed
 
     private void btn_admin_add_fac5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_admin_add_fac5ActionPerformed
-        // TODO add your handling code here:
+
     }//GEN-LAST:event_btn_admin_add_fac5ActionPerformed
 
-    /**
-     * @param args the command line arguments
-     */
     public static void main(String args[]) {
         /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
@@ -441,9 +478,9 @@ public class Admin extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton btn_admin_add_fac;
-    private javax.swing.JButton btn_admin_add_fac1;
-    private javax.swing.JButton btn_admin_add_fac2;
+    private javax.swing.JButton btnAdd;
+    private javax.swing.JButton btnDelete;
+    private javax.swing.JButton btnUpdate;
     private javax.swing.JButton btn_admin_add_fac3;
     private javax.swing.JButton btn_admin_add_fac4;
     private javax.swing.JButton btn_admin_add_fac5;
@@ -470,7 +507,7 @@ public class Admin extends javax.swing.JFrame {
             query = "SELECT * FROM FacultyList";
             pst = conn.prepareStatement(query);
             rs = pst.executeQuery();
-            
+
             DefaultTableModel model = new DefaultTableModel();
             model.addColumn("Id");
             model.addColumn("Name");

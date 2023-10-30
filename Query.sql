@@ -51,7 +51,7 @@ INSERT INTO multiuserlogin VALUES(100,'amey123','Student');
 INSERT INTO multiuserlogin VALUES(101,'soham123','Student');
 INSERT INTO multiuserlogin VALUES(102,'pratik123','Student');
 
-INSERT INTO multiuserlogin('' VALUES(1,'fac1','Faculty');
+INSERT INTO multiuserlogin VALUES(1,'fac1','Faculty');
 INSERT INTO multiuserlogin VALUES(2,'fac2','Faculty');
 INSERT INTO multiuserlogin VALUES(3,'fac3','Faculty');
 INSERT INTO multiuserlogin VALUES(4,'fac4','Faculty');
@@ -122,7 +122,7 @@ CALL GetStudentFeedbacks(100);
 
 CREATE VIEW FacultyList AS
 SELECT f.faculty_id, f.faculty_name, f.email, b.branch_name, m.Password
-FROM faculty f
+FROM faculty fmultiuserlogin
 JOIN branches b ON f.branch_id = b.branch_id
 JOIN multiuserlogin m ON f.faculty_id = m.ID;
 
@@ -131,18 +131,19 @@ SELECT * FROM FacultyList;
 DELIMITER //
 CREATE PROCEDURE `AddFaculty`(
     IN faculty_name VARCHAR(255),
-    IN branch_name VARCHAR(255),
+    IN branch_name1 VARCHAR(255),
     IN email VARCHAR(50),
     IN password VARCHAR(16)
 )
 BEGIN
     -- Declare a variable for the new faculty ID
     DECLARE new_faculty_id INT;
-    DECLARE branch_id INT;
+    DECLARE branch_id1 INT;
 
     -- Get the branch_id based on the branch_name
-    SELECT branch_id INTO branch_id FROM branches WHERE branch_name = branch_name LIMIT 1;
-
+    SELECT branch_id INTO branch_id1 FROM branches WHERE branch_name = branch_name1 LIMIT 1;
+    
+	 SELECT branch_id1;
     -- Insert a new row into the multiuserlogin table to generate a new faculty ID
     INSERT INTO multiuserlogin (Password, Role)
     VALUES (password, 'faculty');
@@ -152,17 +153,13 @@ BEGIN
 
     -- Insert a new row into the faculty table with the generated faculty ID and the resolved branch_id
     INSERT INTO faculty (faculty_name, branch_id, email, faculty_id)
-    VALUES (faculty_name, branch_id, email, new_faculty_id);
-
-    -- Commit the transaction
+    VALUES (faculty_name, branch_id1, email, new_faculty_id);
+    -- Commit the transactionadmin
     COMMIT;
-END//
+END//multiuserlogin
 DELIMITER ;
 
-
-
-
-
-CALL AddFaculty('Soham Borkar', 'Chemical Engineering', 'soham@email.com', 'abcd123');
-
-
+CALL AddFaculty('Premanand Ghadekarbranches', 'Mechanical Engineering', 'premanand.ghadekarbranches@vit.edu', 'fac1');
+CALL AddFaculty('Deepali Deshpande', 'Computer Science Engineering', 'deepali.deshpande@vit.edu', 'fac2');
+CALL AddFaculty('Shital Dongare', 'Chemical Engineering', 'shital.dongare@vit.edu', 'fac3');
+CALL AddFaculty('Shilpa Lambor', 'Electrical Engineering', 'shilpa.lambor@vit.edu', 'fac4');
