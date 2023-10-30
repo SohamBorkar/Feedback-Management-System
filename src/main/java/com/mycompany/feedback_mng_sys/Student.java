@@ -265,7 +265,7 @@ public class Student extends javax.swing.JFrame {
 
     private void generateData() {
         try {
-            String query = "SELECT * FROM `student` WHERE std_prn = ?";
+            String query = "SELECT s.std_name, s.std_prn, s.std_rollno, branches.branch_name, s.std_year FROM student s JOIN branches ON s.branch_id = branches.branch_id WHERE s.std_prn = ?";
             pst = conn.prepareStatement(query);
             pst.setString(1, loggedInStudentId);
             rs = pst.executeQuery();
@@ -273,7 +273,7 @@ public class Student extends javax.swing.JFrame {
             txt_std_greet.setText("Welcome " + rs.getString("std_name") + "!");
             txtPrn.setText(rs.getString("std_prn"));
             txtRollNo.setText(rs.getString("std_rollno"));
-            txtBranch.setText(rs.getString("std_branch"));
+            txtBranch.setText(rs.getString("branch_name"));
             txtYear.setText(rs.getString("std_year"));
         } catch (Exception e) {
             e.printStackTrace();
