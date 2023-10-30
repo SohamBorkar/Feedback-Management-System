@@ -207,7 +207,7 @@ public class Student extends javax.swing.JFrame {
 
     private void btnGiveFeedActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnGiveFeedActionPerformed
         this.dispose();
-        new GiveFeedback(feedbackId, feedName, totalQes, createdBy, createdOn).setVisible(true);
+        new GiveFeedback(feedbackId, feedName, totalQes, createdBy, createdOn, loggedInStudentId).setVisible(true);
     }//GEN-LAST:event_btnGiveFeedActionPerformed
 
     /**

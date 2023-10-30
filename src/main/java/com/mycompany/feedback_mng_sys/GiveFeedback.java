@@ -3,6 +3,9 @@ package com.mycompany.feedback_mng_sys;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.util.Enumeration;
+import javax.swing.AbstractButton;
+import javax.swing.ButtonModel;
 import javax.swing.JOptionPane;
 
 public class GiveFeedback extends javax.swing.JFrame {
@@ -14,8 +17,12 @@ public class GiveFeedback extends javax.swing.JFrame {
     private int curQue = 1;
     private int totalQue;
     private int feedbackId;
+    private String loggedStudentId;
+    private int selectedIndex = -1;
+    private String[] radio_option = new String[5];
+    private int counter = 0;
 
-    public GiveFeedback(String feedbackId, String feedName, String totalQes, String createdBy, String createdOn) {
+    public GiveFeedback(String feedbackId, String feedName, String totalQes, String createdBy, String createdOn, String loggedStudentId) {
         initComponents();
         conn = DatabaseConnector.connect();
         totalQue = Integer.parseInt(totalQes);
@@ -26,6 +33,7 @@ public class GiveFeedback extends javax.swing.JFrame {
         txtCreatedBy.setText(createdBy);
         txtCreatedOn.setText(createdOn);
         txtQueNo.setText("Q. " + Integer.toString(curQue) + ".");
+        this.loggedStudentId = loggedStudentId;
         updateQuestion();
     }
 
@@ -55,7 +63,7 @@ public class GiveFeedback extends javax.swing.JFrame {
         btnPrevious = new javax.swing.JButton();
         btnCancle = new javax.swing.JButton();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Give Feedback");
         setResizable(false);
 
@@ -253,22 +261,41 @@ public class GiveFeedback extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnNextActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNextActionPerformed
-        if (curQue == totalQue) {
-            JOptionPane.showMessageDialog(this, "Feedback submitted successfully!");
+        if (options.getSelection() == null) {
+            JOptionPane.showMessageDialog(this, "Select the option", "Warning", JOptionPane.WARNING_MESSAGE);
         } else {
-            curQue++;
-            btnPrevious.setEnabled(true);
-            txtQueNo.setText("Q. " + Integer.toString(curQue) + ".");
-            updateQuestion();
-            options.clearSelection();
             if (curQue == totalQue) {
-                btnNext.setText("Submit");
+                opsSelected();
+                submitFeedback();
+                int confirmResult = JOptionPane.showConfirmDialog(this, "Are you sure you want to submit?", "Confirmation", JOptionPane.YES_NO_OPTION);
+                if (confirmResult == JOptionPane.YES_OPTION) {
+//                    opsSelected();
+//                    submitFeedback();
+                    this.dispose();
+                    Student s = new Student(loggedStudentId);
+                    s.setVisible(true);
+                    JOptionPane.showMessageDialog(this, "Feedback Submitted successfully!", "Success", JOptionPane.INFORMATION_MESSAGE);
+                }
+            } else {
+                opsSelected();
+                submitFeedback();
+                curQue++;
+                btnPrevious.setEnabled(true);
+                txtQueNo.setText("Q. " + Integer.toString(curQue) + ".");
+                updateQuestion();
+                options.clearSelection();
+                if (curQue == totalQue) {
+                    btnNext.setText("Submit");
+                }
             }
         }
+//        for(int i = 0; i < 5; i++){
+//            System.out.println(radio_option[i]);
+//        }
     }//GEN-LAST:event_btnNextActionPerformed
 
     private void btnPreviousActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPreviousActionPerformed
-        btnNext.setText("Next");
+        btnNext.setText("Next >");
         curQue--;
         txtQueNo.setText("Q. " + Integer.toString(curQue) + ".");
         updateQuestion();
@@ -362,5 +389,66 @@ public class GiveFeedback extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(this, e, "Error", JOptionPane.ERROR_MESSAGE);
         }
 
+    }
+
+    private void opsSelected() {
+        ButtonModel selectedButtonModel = options.getSelection();
+        if (selectedButtonModel != null) {
+            // Get the index of the selected radio button
+            Enumeration<AbstractButton> buttons = options.getElements();
+            int selectedIndex = 1;
+
+            while (buttons.hasMoreElements()) {
+                if (selectedButtonModel == buttons.nextElement().getModel()) {
+                    // Found the selected button
+                    break;
+                }
+                selectedIndex++;
+            }
+            counter++;
+
+            switch (selectedIndex) {
+                case 1:
+                    radio_option[counter] = "ops1";
+                    break;
+                case 2:
+                    radio_option[counter] = "ops2";
+                    break;
+                case 3:
+                    radio_option[counter] = "ops3";
+                    break;
+                case 4:
+                    radio_option[counter] = "ops4";
+                    break;
+                case 5:
+                    radio_option[counter] = "ops5";
+                    break;
+                default:
+                    System.out.println("Invalid optin selected by user");
+                    break;
+            }
+            JOptionPane.showMessageDialog(this, "You slected index " + selectedIndex + "and option is " + radio_option[counter]);
+        }
+    }
+
+    private void submitFeedback() {
+        try {
+            query = "INSERT INTO Std_Feedback_Responses (std_prn, feed_Id, que_no, ops_selected, is_given) VALUES (?, ?, ?, ?, ?)";
+            pst = conn.prepareStatement(query, PreparedStatement.RETURN_GENERATED_KEYS);
+            pst.setInt(1, Integer.parseInt(loggedStudentId));
+            pst.setInt(2, feedbackId);
+            pst.setInt(3, curQue);
+            pst.setString(4, radio_option[counter]);
+            pst.setBoolean(5, true);
+
+            int rowsAffected = pst.executeUpdate();
+
+            if (rowsAffected < 0) {
+                JOptionPane.showMessageDialog(this, "Some error occured...", "Error", JOptionPane.ERROR_MESSAGE);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            JOptionPane.showMessageDialog(this, e, "Error", JOptionPane.ERROR_MESSAGE);
+        }
     }
 }
