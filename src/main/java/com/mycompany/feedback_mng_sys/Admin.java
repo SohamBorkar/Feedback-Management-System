@@ -21,6 +21,7 @@ public final class Admin extends javax.swing.JFrame {
         initComponents();
         conn = DatabaseConnector.connect();
         updateFacultyTable();
+        updateStudentTable();
         tableFaculty.getSelectionModel().addListSelectionListener(new ListSelectionListener() {
             @Override
             public void valueChanged(ListSelectionEvent e) {
@@ -63,7 +64,7 @@ public final class Admin extends javax.swing.JFrame {
         panStudents = new javax.swing.JPanel();
         jLabel3 = new javax.swing.JLabel();
         jScrollPane2 = new javax.swing.JScrollPane();
-        jTable2 = new javax.swing.JTable();
+        tableStudents = new javax.swing.JTable();
         btn_admin_add_fac3 = new javax.swing.JButton();
         btn_admin_add_fac4 = new javax.swing.JButton();
         btn_admin_add_fac5 = new javax.swing.JButton();
@@ -195,6 +196,7 @@ public final class Admin extends javax.swing.JFrame {
                 "Title 1", "Title 2", "Title 3", "Title 4"
             }
         ));
+        tableFaculty.setAutoResizeMode(javax.swing.JTable.AUTO_RESIZE_NEXT_COLUMN);
         tableFaculty.setRowHeight(25);
         jScrollPane1.setViewportView(tableFaculty);
 
@@ -257,7 +259,8 @@ public final class Admin extends javax.swing.JFrame {
         jLabel3.setFont(new java.awt.Font("Segoe UI", 0, 20)); // NOI18N
         jLabel3.setText("Students");
 
-        jTable2.setModel(new javax.swing.table.DefaultTableModel(
+        tableStudents.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        tableStudents.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null},
                 {null, null, null, null},
@@ -268,7 +271,8 @@ public final class Admin extends javax.swing.JFrame {
                 "Title 1", "Title 2", "Title 3", "Title 4"
             }
         ));
-        jScrollPane2.setViewportView(jTable2);
+        tableStudents.setRowHeight(25);
+        jScrollPane2.setViewportView(tableStudents);
 
         btn_admin_add_fac3.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         btn_admin_add_fac3.setText("Add");
@@ -280,6 +284,7 @@ public final class Admin extends javax.swing.JFrame {
 
         btn_admin_add_fac4.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         btn_admin_add_fac4.setText("Update");
+        btn_admin_add_fac4.setEnabled(false);
         btn_admin_add_fac4.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btn_admin_add_fac4ActionPerformed(evt);
@@ -288,6 +293,7 @@ public final class Admin extends javax.swing.JFrame {
 
         btn_admin_add_fac5.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         btn_admin_add_fac5.setText("Delete");
+        btn_admin_add_fac5.setEnabled(false);
         btn_admin_add_fac5.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btn_admin_add_fac5ActionPerformed(evt);
@@ -434,7 +440,7 @@ public final class Admin extends javax.swing.JFrame {
     }//GEN-LAST:event_btnUpdateActionPerformed
 
     private void btn_admin_add_fac3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_admin_add_fac3ActionPerformed
-
+        new AddStudent(this).setVisible(true);
     }//GEN-LAST:event_btn_admin_add_fac3ActionPerformed
 
     private void btn_admin_add_fac4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_admin_add_fac4ActionPerformed
@@ -493,13 +499,13 @@ public final class Admin extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel2;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
-    private javax.swing.JTable jTable2;
     private javax.swing.JPanel panFaculty;
     private javax.swing.JPanel panStudents;
     private javax.swing.JPanel panTabs;
     private javax.swing.JPanel tabFaculty;
     private javax.swing.JPanel tabStudents;
     private javax.swing.JTable tableFaculty;
+    private javax.swing.JTable tableStudents;
     // End of variables declaration//GEN-END:variables
 
     public void updateFacultyTable() {
@@ -524,6 +530,35 @@ public final class Admin extends javax.swing.JFrame {
             }
 
             tableFaculty.setModel(model);
+        } catch (Exception e) {
+            e.printStackTrace();
+            JOptionPane.showMessageDialog(this, e, "Error", JOptionPane.ERROR_MESSAGE);
+        }
+    }
+
+    private void updateStudentTable() {
+        try {
+            query = "SELECT s.std_prn, s.std_rollno, s.std_name, branches.branch_name, s.std_year, multiuserlogin.Password FROM student s JOIN branches ON s.branch_id = branches.branch_id JOIN multiuserlogin ON s.std_prn = multiuserlogin.ID";
+            pst = conn.prepareStatement(query);
+            rs = pst.executeQuery();
+
+            DefaultTableModel model = new DefaultTableModel();
+            model.addColumn("Prn No");
+            model.addColumn("Roll No");
+            model.addColumn("Name");
+            model.addColumn("Branch");
+            model.addColumn("Year");
+            model.addColumn("Password");
+
+            while (rs.next()) {
+                Object[] row = new Object[6]; 
+                for (int i = 1; i <= 6; i++) { 
+                    row[i - 1] = rs.getObject(i);
+                }
+                model.addRow(row);
+            }
+            
+            tableStudents.setModel(model);
         } catch (Exception e) {
             e.printStackTrace();
             JOptionPane.showMessageDialog(this, e, "Error", JOptionPane.ERROR_MESSAGE);

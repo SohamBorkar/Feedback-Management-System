@@ -7,6 +7,7 @@ com\mycompany\feedback_mng_sys\DatabaseConnector.class
 com\mycompany\feedback_mng_sys\Faculty.class
 com\mycompany\feedback_mng_sys\GiveFeedback$2.class
 com\mycompany\feedback_mng_sys\Feedback_mng_sys$1.class
+com\mycompany\feedback_mng_sys\AddStudent$2.class
 com\mycompany\feedback_mng_sys\Admin$3.class
 com\mycompany\feedback_mng_sys\LoginForm$2.class
 com\mycompany\feedback_mng_sys\SetQuestions$3.class
@@ -26,6 +27,7 @@ com\mycompany\feedback_mng_sys\Admin$8.class
 com\mycompany\feedback_mng_sys\Rough$2.class
 com\mycompany\feedback_mng_sys\Admin$11.class
 com\mycompany\feedback_mng_sys\SetQuestions$4.class
+com\mycompany\feedback_mng_sys\AddStudent.class
 com\mycompany\feedback_mng_sys\Admin_Add_Student$1.class
 com\mycompany\feedback_mng_sys\Admin_Add_Student.class
 com\mycompany\feedback_mng_sys\SetQuestions.class
@@ -46,3 +48,4 @@ com\mycompany\feedback_mng_sys\Admin$10.class
 com\mycompany\feedback_mng_sys\SetQuestions$5.class
 com\mycompany\feedback_mng_sys\GiveFeedback$3.class
 com\mycompany\feedback_mng_sys\Feedback_mng_sys.class
+com\mycompany\feedback_mng_sys\AddStudent$1.class
