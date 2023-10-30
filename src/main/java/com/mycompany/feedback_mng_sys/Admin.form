@@ -363,11 +363,11 @@
                   </Group>
                   <Group type="102" alignment="0" attributes="0">
                       <EmptySpace max="-2" attributes="0"/>
-                      <Component id="btn_admin_add_fac3" min="-2" pref="85" max="-2" attributes="0"/>
+                      <Component id="btnAddStu" min="-2" pref="85" max="-2" attributes="0"/>
                       <EmptySpace type="unrelated" max="-2" attributes="0"/>
-                      <Component id="btn_admin_add_fac4" min="-2" pref="85" max="-2" attributes="0"/>
+                      <Component id="btnUpdateStu" min="-2" pref="85" max="-2" attributes="0"/>
                       <EmptySpace type="unrelated" max="-2" attributes="0"/>
-                      <Component id="btn_admin_add_fac5" min="-2" pref="85" max="-2" attributes="0"/>
+                      <Component id="btnDeleteStu" min="-2" pref="85" max="-2" attributes="0"/>
                       <EmptySpace max="32767" attributes="0"/>
                   </Group>
               </Group>
@@ -381,10 +381,10 @@
                       <Component id="jScrollPane2" pref="407" max="32767" attributes="0"/>
                       <EmptySpace max="-2" attributes="0"/>
                       <Group type="103" groupAlignment="0" attributes="0">
-                          <Component id="btn_admin_add_fac5" alignment="0" min="-2" max="-2" attributes="0"/>
+                          <Component id="btnDeleteStu" alignment="0" min="-2" max="-2" attributes="0"/>
                           <Group type="103" groupAlignment="3" attributes="0">
-                              <Component id="btn_admin_add_fac3" alignment="3" min="-2" max="-2" attributes="0"/>
-                              <Component id="btn_admin_add_fac4" alignment="3" min="-2" max="-2" attributes="0"/>
+                              <Component id="btnAddStu" alignment="3" min="-2" max="-2" attributes="0"/>
+                              <Component id="btnUpdateStu" alignment="3" min="-2" max="-2" attributes="0"/>
                           </Group>
                       </Group>
                       <EmptySpace max="-2" attributes="0"/>
@@ -426,7 +426,7 @@
                 </Component>
               </SubComponents>
             </Container>
-            <Component class="javax.swing.JButton" name="btn_admin_add_fac3">
+            <Component class="javax.swing.JButton" name="btnAddStu">
               <Properties>
                 <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
                   <Font name="Segoe UI" size="14" style="0"/>
@@ -434,10 +434,10 @@
                 <Property name="text" type="java.lang.String" value="Add"/>
               </Properties>
               <Events>
-                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btn_admin_add_fac3ActionPerformed"/>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnAddStuActionPerformed"/>
               </Events>
             </Component>
-            <Component class="javax.swing.JButton" name="btn_admin_add_fac4">
+            <Component class="javax.swing.JButton" name="btnUpdateStu">
               <Properties>
                 <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
                   <Font name="Segoe UI" size="14" style="0"/>
@@ -446,10 +446,10 @@
                 <Property name="enabled" type="boolean" value="false"/>
               </Properties>
               <Events>
-                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btn_admin_add_fac4ActionPerformed"/>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnUpdateStuActionPerformed"/>
               </Events>
             </Component>
-            <Component class="javax.swing.JButton" name="btn_admin_add_fac5">
+            <Component class="javax.swing.JButton" name="btnDeleteStu">
               <Properties>
                 <Property name="font" type="java.awt.Font" editor="org.netbeans.beaninfo.editors.FontEditor">
                   <Font name="Segoe UI" size="14" style="0"/>
@@ -458,7 +458,7 @@
                 <Property name="enabled" type="boolean" value="false"/>
               </Properties>
               <Events>
-                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btn_admin_add_fac5ActionPerformed"/>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="btnDeleteStuActionPerformed"/>
               </Events>
             </Component>
           </SubComponents>

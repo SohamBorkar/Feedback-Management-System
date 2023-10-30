@@ -16,6 +16,7 @@ public final class Admin extends javax.swing.JFrame {
     private ResultSet rs = null;
     private String query = null;
     private String selectedFacultyId = null;
+    private String selectedStudentId = null;
 
     public Admin() {
         initComponents();
@@ -31,6 +32,20 @@ public final class Admin extends javax.swing.JFrame {
                         selectedFacultyId = tableFaculty.getValueAt(selectedRow, 0).toString();
                         btnUpdate.setEnabled(true);
                         btnDelete.setEnabled(true);
+                    }
+                }
+            }
+        });
+        
+        tableStudents.getSelectionModel().addListSelectionListener(new ListSelectionListener() {
+            @Override
+            public void valueChanged(ListSelectionEvent e) {
+                if (!e.getValueIsAdjusting()) {
+                    int selectedRow = tableStudents.getSelectedRow();
+                    if (selectedRow >= 0) {
+                        selectedStudentId = tableStudents.getValueAt(selectedRow, 0).toString();
+                        btnUpdateStu.setEnabled(true);
+                        btnDeleteStu.setEnabled(true);
                     }
                 }
             }
@@ -65,9 +80,9 @@ public final class Admin extends javax.swing.JFrame {
         jLabel3 = new javax.swing.JLabel();
         jScrollPane2 = new javax.swing.JScrollPane();
         tableStudents = new javax.swing.JTable();
-        btn_admin_add_fac3 = new javax.swing.JButton();
-        btn_admin_add_fac4 = new javax.swing.JButton();
-        btn_admin_add_fac5 = new javax.swing.JButton();
+        btnAddStu = new javax.swing.JButton();
+        btnUpdateStu = new javax.swing.JButton();
+        btnDeleteStu = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Admin Home");
@@ -274,29 +289,29 @@ public final class Admin extends javax.swing.JFrame {
         tableStudents.setRowHeight(25);
         jScrollPane2.setViewportView(tableStudents);
 
-        btn_admin_add_fac3.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        btn_admin_add_fac3.setText("Add");
-        btn_admin_add_fac3.addActionListener(new java.awt.event.ActionListener() {
+        btnAddStu.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        btnAddStu.setText("Add");
+        btnAddStu.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btn_admin_add_fac3ActionPerformed(evt);
+                btnAddStuActionPerformed(evt);
             }
         });
 
-        btn_admin_add_fac4.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        btn_admin_add_fac4.setText("Update");
-        btn_admin_add_fac4.setEnabled(false);
-        btn_admin_add_fac4.addActionListener(new java.awt.event.ActionListener() {
+        btnUpdateStu.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        btnUpdateStu.setText("Update");
+        btnUpdateStu.setEnabled(false);
+        btnUpdateStu.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btn_admin_add_fac4ActionPerformed(evt);
+                btnUpdateStuActionPerformed(evt);
             }
         });
 
-        btn_admin_add_fac5.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        btn_admin_add_fac5.setText("Delete");
-        btn_admin_add_fac5.setEnabled(false);
-        btn_admin_add_fac5.addActionListener(new java.awt.event.ActionListener() {
+        btnDeleteStu.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        btnDeleteStu.setText("Delete");
+        btnDeleteStu.setEnabled(false);
+        btnDeleteStu.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btn_admin_add_fac5ActionPerformed(evt);
+                btnDeleteStuActionPerformed(evt);
             }
         });
 
@@ -316,11 +331,11 @@ public final class Admin extends javax.swing.JFrame {
                 .addContainerGap())
             .addGroup(panStudentsLayout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(btn_admin_add_fac3, javax.swing.GroupLayout.PREFERRED_SIZE, 85, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(btnAddStu, javax.swing.GroupLayout.PREFERRED_SIZE, 85, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(btn_admin_add_fac4, javax.swing.GroupLayout.PREFERRED_SIZE, 85, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(btnUpdateStu, javax.swing.GroupLayout.PREFERRED_SIZE, 85, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(btn_admin_add_fac5, javax.swing.GroupLayout.PREFERRED_SIZE, 85, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(btnDeleteStu, javax.swing.GroupLayout.PREFERRED_SIZE, 85, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         panStudentsLayout.setVerticalGroup(
@@ -332,10 +347,10 @@ public final class Admin extends javax.swing.JFrame {
                 .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 407, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(panStudentsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(btn_admin_add_fac5)
+                    .addComponent(btnDeleteStu)
                     .addGroup(panStudentsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(btn_admin_add_fac3)
-                        .addComponent(btn_admin_add_fac4)))
+                        .addComponent(btnAddStu)
+                        .addComponent(btnUpdateStu)))
                 .addContainerGap())
         );
 
@@ -432,24 +447,45 @@ public final class Admin extends javax.swing.JFrame {
             e.printStackTrace();
             JOptionPane.showMessageDialog(this, e, "Error", JOptionPane.ERROR_MESSAGE);
         }
-
     }//GEN-LAST:event_btnDeleteActionPerformed
 
     private void btnUpdateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnUpdateActionPerformed
 
     }//GEN-LAST:event_btnUpdateActionPerformed
 
-    private void btn_admin_add_fac3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_admin_add_fac3ActionPerformed
+    private void btnAddStuActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddStuActionPerformed
         new AddStudent(this).setVisible(true);
-    }//GEN-LAST:event_btn_admin_add_fac3ActionPerformed
+    }//GEN-LAST:event_btnAddStuActionPerformed
 
-    private void btn_admin_add_fac4ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_admin_add_fac4ActionPerformed
+    private void btnUpdateStuActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnUpdateStuActionPerformed
 
-    }//GEN-LAST:event_btn_admin_add_fac4ActionPerformed
+    }//GEN-LAST:event_btnUpdateStuActionPerformed
 
-    private void btn_admin_add_fac5ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btn_admin_add_fac5ActionPerformed
+    private void btnDeleteStuActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDeleteStuActionPerformed
+        try {
+            // Ask the user for confirmation before deleting
+            int confirmation = JOptionPane.showConfirmDialog(this, "Are you sure you want to delete this student?", "Confirm Deletion", JOptionPane.YES_NO_OPTION);
 
-    }//GEN-LAST:event_btn_admin_add_fac5ActionPerformed
+            if (confirmation == JOptionPane.YES_OPTION) {
+                // The user confirmed the deletion
+                query = "DELETE FROM multiuserlogin WHERE ID = ?";
+                pst = conn.prepareStatement(query);
+                pst.setString(1, selectedStudentId);
+                int rows = pst.executeUpdate();
+
+                if (rows > 0) {
+                    JOptionPane.showMessageDialog(this, "Student deleted successfully!" + selectedStudentId);
+                    updateStudentTable();
+                }
+            } else {
+                // The user canceled the deletion
+                JOptionPane.showMessageDialog(this, "Deletion canceled.");
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            JOptionPane.showMessageDialog(this, e, "Error", JOptionPane.ERROR_MESSAGE);
+        }
+    }//GEN-LAST:event_btnDeleteStuActionPerformed
 
     public static void main(String args[]) {
         /* Set the Nimbus look and feel */
@@ -485,11 +521,11 @@ public final class Admin extends javax.swing.JFrame {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnAdd;
+    private javax.swing.JButton btnAddStu;
     private javax.swing.JButton btnDelete;
+    private javax.swing.JButton btnDeleteStu;
     private javax.swing.JButton btnUpdate;
-    private javax.swing.JButton btn_admin_add_fac3;
-    private javax.swing.JButton btn_admin_add_fac4;
-    private javax.swing.JButton btn_admin_add_fac5;
+    private javax.swing.JButton btnUpdateStu;
     private javax.swing.JButton btn_admin_logout;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
@@ -536,7 +572,7 @@ public final class Admin extends javax.swing.JFrame {
         }
     }
 
-    private void updateStudentTable() {
+    void updateStudentTable() {
         try {
             query = "SELECT s.std_prn, s.std_rollno, s.std_name, branches.branch_name, s.std_year, multiuserlogin.Password FROM student s JOIN branches ON s.branch_id = branches.branch_id JOIN multiuserlogin ON s.std_prn = multiuserlogin.ID";
             pst = conn.prepareStatement(query);
@@ -551,13 +587,13 @@ public final class Admin extends javax.swing.JFrame {
             model.addColumn("Password");
 
             while (rs.next()) {
-                Object[] row = new Object[6]; 
-                for (int i = 1; i <= 6; i++) { 
+                Object[] row = new Object[6];
+                for (int i = 1; i <= 6; i++) {
                     row[i - 1] = rs.getObject(i);
                 }
                 model.addRow(row);
             }
-            
+
             tableStudents.setModel(model);
         } catch (Exception e) {
             e.printStackTrace();

@@ -43,7 +43,7 @@ CALL DropTables();
 DROP PROCEDURE IF EXISTS DropTables;
 -- ---------------------------------------------------------------
 
-facultyfaculty
+
 ALTER TABLE multiuserlogin
 ADD PRIMARY KEY (id);
 
@@ -64,7 +64,7 @@ CREATE TABLE feedbacks (
     feed_name VARCHAR(255),
     feed_time TIMESTAMP
 );
-ALTER TABLE feedbacksmultiuserlogin
+ALTER TABLE feedbacks
 ADD COLUMN by_faculty_id INT;
 
 ALTER TABLE feedbacks
@@ -117,49 +117,91 @@ BEGIN
 END//
 DELIMITER ;
 
-CALL GetQuestionsByFeedId(4);
-CALL GetStudentFeedbacks(100);
+CALL GetQuestionsByFeedId(feed_id);
+CALL GetStudentFeedbacks(101);
+feedbacks
+ALTER TABLE student
+MODIFY std_year VARCHAR(10);
+student
+SELECT * FROM student;
+SELECT * FROM faculty;AddStudnet
+INSERT INTO faculty (faculty_name, faculty_branch, faculty_id) VALUES (?, ?, ?)
+GetStudentFeedbacks
 
-CREATE VIEW FacultyList AS
-SELECT f.faculty_id, f.faculty_name, f.email, b.branch_name, m.Password
-FROM faculty fmultiuserlogin
-JOIN branches b ON f.branch_id = b.branch_id
-JOIN multiuserlogin m ON f.faculty_id = m.ID;
 
-SELECT * FROM FacultyList;
+
 
 DELIMITER //
-CREATE PROCEDURE `AddFaculty`(
-    IN faculty_name VARCHAR(255),
-    IN branch_name1 VARCHAR(255),
-    IN email VARCHAR(50),
-    IN password VARCHAR(16)
-)
+CREATE PROCEDURE `GetQuestionsAndOptionsByFeedId` (IN feed_id INT)
 BEGIN
-    -- Declare a variable for the new faculty ID
-    DECLARE new_faculty_id INT;
-    DECLARE branch_id1 INT;
-
-    -- Get the branch_id based on the branch_name
-    SELECT branch_id INTO branch_id1 FROM branches WHERE branch_name = branch_name1 LIMIT 1;
-    
-	 SELECT branch_id1;
-    -- Insert a new row into the multiuserlogin table to generate a new faculty ID
-    INSERT INTO multiuserlogin (Password, Role)
-    VALUES (password, 'faculty');
-
-    -- Get the auto-generated faculty ID
-    SET new_faculty_id = LAST_INSERT_ID();
-
-    -- Insert a new row into the faculty table with the generated faculty ID and the resolved branch_id
-    INSERT INTO faculty (faculty_name, branch_id, email, faculty_id)
-    VALUES (faculty_name, branch_id1, email, new_faculty_id);
-    -- Commit the transactionadmin
-    COMMIT;
-END//multiuserlogin
+    SELECT q.que_no, q.question, o.ops1, o.ops2, o.ops3, o.ops4, o.ops5
+    FROM questions q
+    INNER JOIN options o ON q.ops_type = o.ops_type
+    WHERE q.feed_id = feed_id;
+END//
 DELIMITER ;
 
-CALL AddFaculty('Premanand Ghadekarbranches', 'Mechanical Engineering', 'premanand.ghadekarbranches@vit.edu', 'fac1');
-CALL AddFaculty('Deepali Deshpande', 'Computer Science Engineering', 'deepali.deshpande@vit.edu', 'fac2');
-CALL AddFaculty('Shital Dongare', 'Chemical Engineering', 'shital.dongare@vit.edu', 'fac3');
-CALL AddFaculty('Shilpa Lambor', 'Electrical Engineering', 'shilpa.lambor@vit.edu', 'fac4');
+DROP PROCEDURE IF EXISTS GetQuestionsAndOptionsByFeedId;
+
+CALL GetQuestionsAndOptionsByFeedId(4);
+
+DELIMITER //
+CREATE PROCEDURE `AddStudent`(
+    IN `s_name` VARCHAR(255),
+    IN `s_year` VARCHAR(10),
+    IN `s_roll` INT,
+    IN `s_branch` VARCHAR(255),
+    IN `password` VARCHAR(16)
+)
+LANGUAGE SQL
+NOT DETERMINISTIC
+CONTAINS SQL
+SQL SECURITY DEFINER
+COMMENT ''
+BEGIN
+    -- Declare a variable for the new student ID and branch ID
+    DECLARE new_std_id INT;
+    DECLARE new_branch_id INT;
+
+    -- Get the branch_id based on the branch_name
+    SELECT branch_id INTO new_branch_id FROM branches WHERE branch_name = s_branch LIMIT 1;
+	 SELECT new_branch_id;
+    -- Insert a new row into the multiuserlogin table to generate a new student ID
+    INSERT INTO multiuserlogin (Password, Role)
+    VALUES (password, 'student');
+
+    -- Get the auto-genAddStudenterated student ID
+    SET new_std_id = LAST_INSERT_ID();
+
+    -- Insert a new row into the student table with the generated student ID and the resolved branch ID
+    INSERT INTO student (std_name, std_year, std_rollno, std_prn, branch_id)
+    VALUES (s_name, s_year, s_roll, new_std_id, new_branch_id);
+
+    -- Commit the transaction
+    COMMIT;
+END//
+DELIMITER ;
+
+
+SELECT * FROM Std_Feedback_Responses;
+CALL GetStudentFeedbacks(10);
+
+CREATE TABLE Std_Feedback_Responses (
+    std_prn INT,
+    feed_Id INT,
+    que_no INT,
+    ops_selected VARCHAR(255),
+    FOREIGN KEY (std_prn) REFERENCES student (std_prn) ON DELETE CASCADE,
+    FOREIGN KEY (que_no) REFERENCES questions (que_no) ON DELETE CASCADE,
+    FOREIGN KEY (feed_Id) REFERENCES questions (feed_Id) ON DELETE CASCADE
+);
+
+ALTER TABLE Std_Feedback_ResponsesmultiuserloginAddStudnet ADD PRIMARY KEY (std_prn,que_no,feed_Id);
+
+INSERT INTO Std_Feedback_Responses (std_prn, feed_Id, que_no, ops_selected) VALUES (101, 10, 1, 'ops3');
+Std_Feedback_Responses
+SELECT * FROM Std_Feedback_Responses;
+
+ALTER TABLE Std_Feedback_Responses ADD is_given TINYINT(0);
+
+TRUNCATE TABLE Std_Feedback_Responses;

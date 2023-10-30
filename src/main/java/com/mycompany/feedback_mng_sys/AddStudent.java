@@ -168,12 +168,12 @@ try {
             pst.setString(2, cbYear.getSelectedItem().toString());
             pst.setString(3, txtRoll.getText());
             pst.setString(4, cbBranches.getSelectedItem().toString());
-            pst.setString(4, txtPass.getText());
+            pst.setString(5, txtPass.getText());
             rs = pst.executeQuery();
             if (rs.next()) {
                 this.dispose();
-                parent.updateFacultyTable();
-                JOptionPane.showMessageDialog(this, "Faculty added successfully!");
+                parent.updateStudentTable();
+                JOptionPane.showMessageDialog(this, "Student added successfully!");
             }
         } catch (Exception e) {
             e.printStackTrace();
