@@ -79,7 +79,7 @@ public class Faculty_Feedback_Analytics_Home extends javax.swing.JFrame {
         jLabel1 = new javax.swing.JLabel();
         see_analytics = new javax.swing.JButton();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Feedback Analytics");
         setResizable(false);
 
@@ -94,6 +94,7 @@ public class Faculty_Feedback_Analytics_Home extends javax.swing.JFrame {
             }
         });
 
+        jTable1.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         jTable1.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null},
@@ -105,6 +106,7 @@ public class Faculty_Feedback_Analytics_Home extends javax.swing.JFrame {
                 "Title 1", "Title 2", "Title 3", "Title 4"
             }
         ));
+        jTable1.setRowHeight(25);
         jScrollPane1.setViewportView(jTable1);
 
         jLabel1.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N

@@ -70,16 +70,16 @@ public class GiveFeedback extends javax.swing.JFrame {
         setTitle("Give Feedback");
         setResizable(false);
 
-        jLabel1.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        jLabel1.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         jLabel1.setText("Feedback name:");
 
-        jLabel2.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        jLabel2.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         jLabel2.setText("Created by:");
 
-        jLabel3.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        jLabel3.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         jLabel3.setText("Total questions:");
 
-        jLabel4.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        jLabel4.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         jLabel4.setText("Created on:");
 
         jLabel5.setFont(new java.awt.Font("Segoe UI", 0, 24)); // NOI18N
@@ -107,15 +107,19 @@ public class GiveFeedback extends javax.swing.JFrame {
         txtQuestion.setVerticalAlignment(javax.swing.SwingConstants.TOP);
 
         options.add(jRadioButton1);
+        jRadioButton1.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         jRadioButton1.setText("jRadioButton1");
 
         options.add(jRadioButton2);
+        jRadioButton2.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         jRadioButton2.setText("jRadioButton2");
 
         options.add(jRadioButton3);
+        jRadioButton3.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         jRadioButton3.setText("jRadioButton3");
 
         options.add(jRadioButton4);
+        jRadioButton4.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         jRadioButton4.setText("jRadioButton4");
         jRadioButton4.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -124,6 +128,7 @@ public class GiveFeedback extends javax.swing.JFrame {
         });
 
         options.add(jRadioButton5);
+        jRadioButton5.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         jRadioButton5.setText("jRadioButton5");
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
@@ -310,6 +315,7 @@ public class GiveFeedback extends javax.swing.JFrame {
     private void btnPreviousActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPreviousActionPerformed
         btnNext.setText("Next >");
         curQue--;
+        options.clearSelection();
         txtQueNo.setText("Q. " + Integer.toString(curQue) + ".");
         updateQuestion();
         if (curQue == 1) {
@@ -410,7 +416,7 @@ public class GiveFeedback extends javax.swing.JFrame {
             // Get the index of the selected radio button
             Enumeration<AbstractButton> buttons = options.getElements();
             int selectedIndex = 1;
-
+            counter = 0;
             while (buttons.hasMoreElements()) {
                 if (selectedButtonModel == buttons.nextElement().getModel()) {
                     // Found the selected button
@@ -446,7 +452,10 @@ public class GiveFeedback extends javax.swing.JFrame {
 
     private void submitFeedback() {
         try {
-            query = "INSERT INTO Std_Feedback_Responses (std_prn, feed_Id, que_no, ops_selected, is_given) VALUES (?, ?, ?, ?, ?)";
+            query = "INSERT INTO Std_Feedback_Responses (std_prn, feed_Id, que_no, ops_selected, is_given) "
+                    + "VALUES (?, ?, ?, ?, ?) "
+                    + "ON DUPLICATE KEY UPDATE "
+                    + "ops_selected = VALUES(ops_selected), is_given = VALUES(is_given)";
             pst = conn.prepareStatement(query, PreparedStatement.RETURN_GENERATED_KEYS);
             pst.setInt(1, Integer.parseInt(loggedStudentId));
             pst.setInt(2, feedbackId);

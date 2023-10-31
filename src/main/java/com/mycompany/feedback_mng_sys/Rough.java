@@ -103,20 +103,20 @@ public class Rough extends javax.swing.JFrame {
     // End of variables declaration//GEN-END:variables
 
     private void initialize() {
-        setTitle("Progress Bar Demo");
-        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        setSize(500, 100);
+//        setTitle("Progress Bar Demo");
+//        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+//        setSize(500, 100);
         setLayout(new FlowLayout());
 
         progressBar = new JProgressBar();
 
         // Create a custom ProgressBarUI to change the color to blue
-         progressBar.setUI(new BasicProgressBarUI() {
-            protected Color getSelectionBackground() {
-                return Color.BLUE;
-            }
-        });
-                 progressBar.setBackground(Color.BLUE);
+//         progressBar.setUI(new BasicProgressBarUI() {
+//            protected Color getSelectionBackground() {
+//                return Color.BLUE;
+//            }
+//        });
+//                 progressBar.setBackground(Color.BLUE);
 
         // Fetch maximum and filled values from the database
         maximumValue = 17;

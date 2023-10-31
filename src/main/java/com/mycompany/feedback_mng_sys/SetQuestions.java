@@ -296,6 +296,7 @@ public class SetQuestions extends javax.swing.JFrame {
 
     private void btnPreviousActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPreviousActionPerformed
         btnNext.setText("Next >");
+        txtaQue.setText("");
         currQue--;
         txtQueNo.setText(Integer.toString(currQue));
         if (currQue == 1) {

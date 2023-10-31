@@ -30,7 +30,6 @@ public final class Admin extends javax.swing.JFrame {
                     int selectedRow = tableFaculty.getSelectedRow();
                     if (selectedRow >= 0) {
                         selectedFacultyId = tableFaculty.getValueAt(selectedRow, 0).toString();
-                        btnUpdate.setEnabled(true);
                         btnDelete.setEnabled(true);
                     }
                 }
@@ -44,7 +43,6 @@ public final class Admin extends javax.swing.JFrame {
                     int selectedRow = tableStudents.getSelectedRow();
                     if (selectedRow >= 0) {
                         selectedStudentId = tableStudents.getValueAt(selectedRow, 0).toString();
-                        btnUpdateStu.setEnabled(true);
                         btnDeleteStu.setEnabled(true);
                     }
                 }
@@ -75,20 +73,18 @@ public final class Admin extends javax.swing.JFrame {
         jScrollPane1 = new javax.swing.JScrollPane();
         tableFaculty = new javax.swing.JTable();
         btnDelete = new javax.swing.JButton();
-        btnUpdate = new javax.swing.JButton();
         panStudents = new javax.swing.JPanel();
         jLabel3 = new javax.swing.JLabel();
         jScrollPane2 = new javax.swing.JScrollPane();
         tableStudents = new javax.swing.JTable();
         btnAddStu = new javax.swing.JButton();
-        btnUpdateStu = new javax.swing.JButton();
         btnDeleteStu = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Admin Home");
         setResizable(false);
 
-        jPanel2.setBackground(new java.awt.Color(0, 153, 255));
+        jPanel2.setBackground(new java.awt.Color(204, 204, 204));
 
         tabFaculty.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         tabFaculty.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -117,7 +113,7 @@ public final class Admin extends javax.swing.JFrame {
                 .addContainerGap())
         );
 
-        tabStudents.setBackground(new java.awt.Color(179, 219, 246));
+        tabStudents.setBackground(new java.awt.Color(204, 204, 204));
         tabStudents.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         tabStudents.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
@@ -147,7 +143,7 @@ public final class Admin extends javax.swing.JFrame {
 
         jLabel1.setBackground(new java.awt.Color(204, 204, 204));
         jLabel1.setFont(new java.awt.Font("Segoe UI", 0, 17)); // NOI18N
-        jLabel1.setText("Welcome Admin!");
+        jLabel1.setText("Admin");
 
         btn_admin_logout.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         btn_admin_logout.setText("Logout");
@@ -163,14 +159,15 @@ public final class Admin extends javax.swing.JFrame {
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addComponent(tabFaculty, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             .addComponent(tabStudents, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .addComponent(jLabel1)
-                .addContainerGap())
             .addGroup(jPanel2Layout.createSequentialGroup()
-                .addGap(31, 31, 31)
-                .addComponent(btn_admin_logout)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addGap(31, 31, 31)
+                        .addComponent(btn_admin_logout))
+                    .addGroup(jPanel2Layout.createSequentialGroup()
+                        .addGap(42, 42, 42)
+                        .addComponent(jLabel1)))
+                .addContainerGap(33, Short.MAX_VALUE))
         );
         jPanel2Layout.setVerticalGroup(
             jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -224,15 +221,6 @@ public final class Admin extends javax.swing.JFrame {
             }
         });
 
-        btnUpdate.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        btnUpdate.setText("Update");
-        btnUpdate.setEnabled(false);
-        btnUpdate.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnUpdateActionPerformed(evt);
-            }
-        });
-
         javax.swing.GroupLayout panFacultyLayout = new javax.swing.GroupLayout(panFaculty);
         panFaculty.setLayout(panFacultyLayout);
         panFacultyLayout.setHorizontalGroup(
@@ -249,9 +237,7 @@ public final class Admin extends javax.swing.JFrame {
                         .addContainerGap())
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panFacultyLayout.createSequentialGroup()
                         .addComponent(btnAdd, javax.swing.GroupLayout.PREFERRED_SIZE, 85, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(btnUpdate, javax.swing.GroupLayout.PREFERRED_SIZE, 85, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addGap(18, 18, 18)
                         .addComponent(btnDelete, javax.swing.GroupLayout.PREFERRED_SIZE, 85, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
         );
@@ -263,11 +249,9 @@ public final class Admin extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 404, Short.MAX_VALUE)
                 .addGap(9, 9, 9)
-                .addGroup(panFacultyLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(btnDelete)
-                    .addGroup(panFacultyLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(btnAdd)
-                        .addComponent(btnUpdate)))
+                .addGroup(panFacultyLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(btnAdd)
+                    .addComponent(btnDelete))
                 .addContainerGap())
         );
 
@@ -297,15 +281,6 @@ public final class Admin extends javax.swing.JFrame {
             }
         });
 
-        btnUpdateStu.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
-        btnUpdateStu.setText("Update");
-        btnUpdateStu.setEnabled(false);
-        btnUpdateStu.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnUpdateStuActionPerformed(evt);
-            }
-        });
-
         btnDeleteStu.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         btnDeleteStu.setText("Delete");
         btnDeleteStu.setEnabled(false);
@@ -332,11 +307,9 @@ public final class Admin extends javax.swing.JFrame {
             .addGroup(panStudentsLayout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(btnAddStu, javax.swing.GroupLayout.PREFERRED_SIZE, 85, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(btnUpdateStu, javax.swing.GroupLayout.PREFERRED_SIZE, 85, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGap(18, 18, 18)
                 .addComponent(btnDeleteStu, javax.swing.GroupLayout.PREFERRED_SIZE, 85, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(416, Short.MAX_VALUE))
         );
         panStudentsLayout.setVerticalGroup(
             panStudentsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -346,11 +319,9 @@ public final class Admin extends javax.swing.JFrame {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 407, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(panStudentsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(btnDeleteStu)
-                    .addGroup(panStudentsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(btnAddStu)
-                        .addComponent(btnUpdateStu)))
+                .addGroup(panStudentsLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(btnAddStu)
+                    .addComponent(btnDeleteStu))
                 .addContainerGap())
         );
 
@@ -411,7 +382,7 @@ public final class Admin extends javax.swing.JFrame {
         panStudents.setVisible(false);
 
         tabFaculty.setBackground(new Color(217, 217, 217));
-        tabStudents.setBackground(new Color(179, 219, 246));
+        tabStudents.setBackground(new Color(204, 204, 204));
 
     }//GEN-LAST:event_tabFacultyMouseClicked
 
@@ -420,7 +391,7 @@ public final class Admin extends javax.swing.JFrame {
         panStudents.setVisible(true);
 
         tabStudents.setBackground(new Color(217, 217, 217));
-        tabFaculty.setBackground(new Color(179, 219, 246));
+        tabFaculty.setBackground(new Color(204, 204, 204));
     }//GEN-LAST:event_tabStudentsMouseClicked
 
     private void btnDeleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDeleteActionPerformed
@@ -449,17 +420,9 @@ public final class Admin extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_btnDeleteActionPerformed
 
-    private void btnUpdateActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnUpdateActionPerformed
-
-    }//GEN-LAST:event_btnUpdateActionPerformed
-
     private void btnAddStuActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAddStuActionPerformed
         new AddStudent(this).setVisible(true);
     }//GEN-LAST:event_btnAddStuActionPerformed
-
-    private void btnUpdateStuActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnUpdateStuActionPerformed
-
-    }//GEN-LAST:event_btnUpdateStuActionPerformed
 
     private void btnDeleteStuActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDeleteStuActionPerformed
         try {
@@ -524,8 +487,6 @@ public final class Admin extends javax.swing.JFrame {
     private javax.swing.JButton btnAddStu;
     private javax.swing.JButton btnDelete;
     private javax.swing.JButton btnDeleteStu;
-    private javax.swing.JButton btnUpdate;
-    private javax.swing.JButton btnUpdateStu;
     private javax.swing.JButton btn_admin_logout;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
