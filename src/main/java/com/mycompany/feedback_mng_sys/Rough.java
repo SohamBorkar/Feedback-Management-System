@@ -4,17 +4,28 @@
  */
 package com.mycompany.feedback_mng_sys;
 
+import java.awt.Color;
+import java.awt.FlowLayout;
+import javax.swing.JFrame;
+import javax.swing.JProgressBar;
+import javax.swing.plaf.basic.BasicProgressBarUI;
+
 /**
  *
  * @author soham
  */
 public class Rough extends javax.swing.JFrame {
 
+    private JProgressBar progressBar;
+    private int maximumValue; // Maximum value obtained from the database
+    private int filledValue;   // Filled value obtained from the database
+
     /**
      * Creates new form Rough
      */
     public Rough() {
         initComponents();
+        initialize();
     }
 
     /**
@@ -26,77 +37,31 @@ public class Rough extends javax.swing.JFrame {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        pan1 = new javax.swing.JPanel();
-        jButton1 = new javax.swing.JButton();
-        jLabel1 = new javax.swing.JLabel();
-        jButton2 = new javax.swing.JButton();
+        progress = new javax.swing.JProgressBar();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
-        pan1.setBackground(new java.awt.Color(153, 153, 255));
-
-        jButton1.setText("jButton1");
-
-        jLabel1.setText("jLabel1");
-
-        javax.swing.GroupLayout pan1Layout = new javax.swing.GroupLayout(pan1);
-        pan1.setLayout(pan1Layout);
-        pan1Layout.setHorizontalGroup(
-            pan1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, pan1Layout.createSequentialGroup()
-                .addContainerGap(56, Short.MAX_VALUE)
-                .addComponent(jLabel1)
-                .addGap(48, 48, 48)
-                .addComponent(jButton1)
-                .addGap(54, 54, 54))
-        );
-        pan1Layout.setVerticalGroup(
-            pan1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(pan1Layout.createSequentialGroup()
-                .addGap(39, 39, 39)
-                .addGroup(pan1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(jButton1)
-                    .addComponent(jLabel1))
-                .addContainerGap(39, Short.MAX_VALUE))
-        );
-
-        jButton2.setText("jButton2");
-        jButton2.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                jButton2ActionPerformed(evt);
-            }
-        });
+        progress.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(53, 53, 53)
-                        .addComponent(pan1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(152, 152, 152)
-                        .addComponent(jButton2)))
-                .addContainerGap(77, Short.MAX_VALUE))
+                .addGap(311, 311, 311)
+                .addComponent(progress, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(314, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(35, 35, 35)
-                .addComponent(pan1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 85, Short.MAX_VALUE)
-                .addComponent(jButton2)
-                .addGap(58, 58, 58))
+                .addGap(180, 180, 180)
+                .addComponent(progress, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(376, Short.MAX_VALUE))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
-
-    private void jButton2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton2ActionPerformed
-        pan1.setVisible(!pan1.isVisible());
-    }//GEN-LAST:event_jButton2ActionPerformed
 
     /**
      * @param args the command line arguments
@@ -134,9 +99,39 @@ public class Rough extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton2;
-    private javax.swing.JLabel jLabel1;
-    private javax.swing.JPanel pan1;
+    private javax.swing.JProgressBar progress;
     // End of variables declaration//GEN-END:variables
+
+    private void initialize() {
+        setTitle("Progress Bar Demo");
+        setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        setSize(500, 100);
+        setLayout(new FlowLayout());
+
+        progressBar = new JProgressBar();
+
+        // Create a custom ProgressBarUI to change the color to blue
+         progressBar.setUI(new BasicProgressBarUI() {
+            protected Color getSelectionBackground() {
+                return Color.BLUE;
+            }
+        });
+                 progressBar.setBackground(Color.BLUE);
+
+        // Fetch maximum and filled values from the database
+        maximumValue = 17;
+        filledValue = 13;
+
+        // Calculate the percentage of completion
+        int completionPercentage = (filledValue * 100) / maximumValue;
+
+        progressBar = new JProgressBar(0, 100); // Progress bar with a range of 0-100
+        progressBar.setValue(completionPercentage); // Set the completion percentage
+        progressBar.setStringPainted(true); // Show the completion percentage as text
+
+        add(progressBar);
+
+        // Make the frame visible
+        setVisible(true);
+    }
 }

@@ -21,6 +21,9 @@ public class GiveFeedback extends javax.swing.JFrame {
     private int selectedIndex = -1;
     private String[] radio_option = new String[5];
     private int counter = 0;
+    private String manual_trigger = null;
+    private PreparedStatement pst_trigger = null;
+    private ResultSet rs_trigger = null;
 
     public GiveFeedback(String feedbackId, String feedName, String totalQes, String createdBy, String createdOn, String loggedStudentId) {
         initComponents();
@@ -265,12 +268,22 @@ public class GiveFeedback extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(this, "Select the option", "Warning", JOptionPane.WARNING_MESSAGE);
         } else {
             if (curQue == totalQue) {
-                opsSelected();
-                submitFeedback();
                 int confirmResult = JOptionPane.showConfirmDialog(this, "Are you sure you want to submit?", "Confirmation", JOptionPane.YES_NO_OPTION);
                 if (confirmResult == JOptionPane.YES_OPTION) {
-//                    opsSelected();
-//                    submitFeedback();
+                    opsSelected();
+                    submitFeedback();
+                    try {
+                        manual_trigger = "UPDATE std_feedback SET is_completed = 'completed' WHERE std_prn = ? AND feed_id = ?";
+                        pst_trigger = conn.prepareStatement(manual_trigger, PreparedStatement.RETURN_GENERATED_KEYS);
+                        pst_trigger.setInt(1, Integer.parseInt(loggedStudentId));
+                        pst_trigger.setInt(2, feedbackId);
+                        int rowsAffected_trigger = pst_trigger.executeUpdate();
+                        if (rowsAffected_trigger < 0) {
+                            JOptionPane.showMessageDialog(this, "Error while performing manual trigger", "Error", JOptionPane.ERROR_MESSAGE);
+                        }
+                    } catch (Exception e) {
+                        e.printStackTrace();
+                    }
                     this.dispose();
                     Student s = new Student(loggedStudentId);
                     s.setVisible(true);
@@ -427,7 +440,7 @@ public class GiveFeedback extends javax.swing.JFrame {
                     System.out.println("Invalid optin selected by user");
                     break;
             }
-            JOptionPane.showMessageDialog(this, "You slected index " + selectedIndex + "and option is " + radio_option[counter]);
+//            JOptionPane.showMessageDialog(this, "You slected index" + selectedIndex + "and option is " + radio_option[counter]);
         }
     }
 
