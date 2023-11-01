@@ -236,7 +236,16 @@ public class Faculty_Feedback_Analytics_Home extends javax.swing.JFrame {
 
     private void getFeedbackList() {
         try {
-            String query = "SELECT * FROM feedbacks WHERE by_faculty_Id = ?";
+            String query = "SELECT\n"
+                    + "    feedbacks.*,\n"
+                    + "    (\n"
+                    + "        SELECT COUNT(DISTINCT std_prn)\n"
+                    + "        FROM std_feedback\n"
+                    + "        WHERE feed_id = feedbacks.feed_id\n"
+                    + "        AND is_completed = 'completed'\n"
+                    + "    ) AS responses\n"
+                    + "FROM feedbacks\n"
+                    + "WHERE by_faculty_Id = ?;";
             pst = conn.prepareStatement(query);
             pst.setInt(1, loggedFacId);
             rs = pst.executeQuery();
@@ -248,6 +257,7 @@ public class Faculty_Feedback_Analytics_Home extends javax.swing.JFrame {
             model.addColumn("Created On");
             model.addColumn("Created By");
             model.addColumn("No of Questions");
+            model.addColumn("Responses");
 
             // Populate the model with data from the result set
             while (rs.next()) {
@@ -256,7 +266,8 @@ public class Faculty_Feedback_Analytics_Home extends javax.swing.JFrame {
                     rs.getString("feed_name"),
                     rs.getTimestamp("feed_time"),
                     rs.getInt("by_faculty_id"),
-                    rs.getInt("no_que")
+                    rs.getInt("no_que"),
+                    rs.getInt("responses")
                 });
             }
 

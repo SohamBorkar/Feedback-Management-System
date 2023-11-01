@@ -26,13 +26,12 @@ public class Faculty_Feedback_Analytics extends javax.swing.JFrame {
     private int totalStd;
     private int feedbackProvided;
     private int feedbackRemaining;
-
+    private int maximumValue;
     private int curQue = 1;
     private int feedbackId;
     private int loggedFacId;
 
     private JProgressBar[] progressBars;
-    private int maximumValue;
     private int filledValue;
     int[] opsCount = new int[5];
 
@@ -523,12 +522,11 @@ public class Faculty_Feedback_Analytics extends javax.swing.JFrame {
 
     private void getDetails() {
         try {
-            String query = "SELECT\n"
-                    + "    COUNT(DISTINCT std_prn) AS unique_std_prn_count_total,\n"
-                    //                    + "    COUNT(DISTINCT CASE WHEN is_completed = 'pending' THEN std_prn END) AS unique_std_prn_count_pending,\n"
-                    + "    COUNT(DISTINCT CASE WHEN is_completed = 'completed' THEN std_prn END) AS unique_std_prn_count_completed\n"
-                    + "FROM std_feedback";
+            String query = "SELECT \n"
+                    + "    (SELECT COUNT(std_prn) FROM student) AS unique_std_prn_count_total,\n"
+                    + "    (SELECT COUNT(std_prn) FROM std_feedback WHERE feed_id = ? AND is_completed = 'completed') AS unique_std_prn_count_completed;";
             pst = conn.prepareStatement(query);
+            pst.setInt(1, Integer.parseInt(Integer.toString(feedbackId)));
             rs = pst.executeQuery();
 
             if (rs.next()) {
@@ -537,7 +535,7 @@ public class Faculty_Feedback_Analytics extends javax.swing.JFrame {
                 int uniqueStdPrnCountCompleted = rs.getInt("unique_std_prn_count_completed");
 
                 // Set the text fields with the obtained counts
-                maximumValue = uniqueStdPrnCountTotal;
+                maximumValue = uniqueStdPrnCountCompleted;
                 System.out.println(maximumValue);
                 txt_total_std.setText(Integer.toString(uniqueStdPrnCountTotal));
                 txt_feedback_remaining.setText(Integer.toString(uniqueStdPrnCountTotal - uniqueStdPrnCountCompleted));
@@ -568,7 +566,14 @@ public class Faculty_Feedback_Analytics extends javax.swing.JFrame {
 
             // count of options below
             try {
-                query = "CALL CountStudentOptions(?, ?)";
+                query = "SELECT\n"
+                        + "    SUM(CASE WHEN ops_selected = 'ops1' THEN 1 ELSE 0 END) AS ops1_count,\n"
+                        + "    SUM(CASE WHEN ops_selected = 'ops2' THEN 1 ELSE 0 END) AS ops2_count,\n"
+                        + "    SUM(CASE WHEN ops_selected = 'ops3' THEN 1 ELSE 0 END) AS ops3_count,\n"
+                        + "    SUM(CASE WHEN ops_selected = 'ops4' THEN 1 ELSE 0 END) AS ops4_count,\n"
+                        + "    SUM(CASE WHEN ops_selected = 'ops5' THEN 1 ELSE 0 END) AS ops5_count\n"
+                        + "FROM Std_Feedback_Responses\n"
+                        + "WHERE feed_id = ? AND que_no = ?;";
                 pst = conn.prepareStatement(query);
                 pst.setInt(1, feedbackId);
                 pst.setInt(2, curQue);
@@ -607,24 +612,24 @@ public class Faculty_Feedback_Analytics extends javax.swing.JFrame {
             if (rs.next()) {
                 pb1.setMinimum(0);
                 pb1.setMaximum(maximumValue);
-                pb1.setValue((rs.getInt("ops1_count") * 100) / maximumValue);
+                pb1.setValue(rs.getInt("ops1_count"));
 
                 pb2.setMinimum(0);
                 pb2.setMaximum(maximumValue);
-                pb2.setValue((rs.getInt("ops2_count") * 100) / maximumValue);
+                pb2.setValue(rs.getInt("ops2_count"));
 
                 pb3.setMinimum(0);
                 pb3.setMaximum(maximumValue);
-                pb3.setValue((rs.getInt("ops3_count") * 100) / maximumValue);
+                pb3.setValue(rs.getInt("ops3_count"));
 
                 pb4.setMinimum(0);
                 pb4.setMaximum(maximumValue);
-                pb4.setValue((rs.getInt("ops4_count") * 100) / maximumValue);
+                pb4.setValue(rs.getInt("ops4_count"));
 
                 pb5.setMinimum(0);
                 pb5.setMaximum(maximumValue);
-                pb5.setValue((rs.getInt("ops5_count") * 100) / maximumValue);
-                
+                pb5.setValue(rs.getInt("ops5_count"));
+
             }
         } catch (Exception e) {
             e.printStackTrace();
