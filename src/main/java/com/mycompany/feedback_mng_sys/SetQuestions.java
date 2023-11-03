@@ -77,6 +77,7 @@ public class SetQuestions extends javax.swing.JFrame {
         txtQueNo.setText("0");
 
         txtaQue.setColumns(20);
+        txtaQue.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         txtaQue.setRows(5);
         jScrollPane1.setViewportView(txtaQue);
 
@@ -86,6 +87,7 @@ public class SetQuestions extends javax.swing.JFrame {
         jLabel3.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         jLabel3.setText("Select option set:");
 
+        listOptionSet.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         listOptionSet.setModel(new javax.swing.AbstractListModel<String>() {
             String[] strings = { "Item 1", "Item 2", "Item 3", "Item 4", "Item 5" };
             public int getSize() { return strings.length; }
@@ -232,7 +234,7 @@ public class SetQuestions extends javax.swing.JFrame {
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(jLabel3)
                             .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 171, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 39, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 19, Short.MAX_VALUE)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(btnNext)
                             .addComponent(btnPrevious)

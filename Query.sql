@@ -151,7 +151,8 @@ CREATE PROCEDURE `AddStudent`(
     IN `s_year` VARCHAR(10),
     IN `s_roll` INT,
     IN `s_branch` VARCHAR(255),
-    IN `password` VARCHAR(16)
+    IN `password` VARCHAR(16),
+    IN `s_prn` INT
 )
 LANGUAGE SQL
 NOT DETERMINISTIC
@@ -160,22 +161,22 @@ SQL SECURITY DEFINER
 COMMENT ''
 BEGIN
     -- Declare a variable for the new student ID and branch ID
-    DECLARE new_std_id INT;
+    -- DECLARE new_std_id INT;
     DECLARE new_branch_id INT;
 
     -- Get the branch_id based on the branch_name
     SELECT branch_id INTO new_branch_id FROM branches WHERE branch_name = s_branch LIMIT 1;
 	 SELECT new_branch_id;
     -- Insert a new row into the multiuserlogin table to generate a new student ID
-    INSERT INTO multiuserlogin (Password, Role)
-    VALUES (password, 'student');
+    INSERT INTO multiuserlogin (ID ,Password, Role)
+    VALUES (s_prn, password, 'student');
 
     -- Get the auto-genAddStudenterated student ID
-    SET new_std_id = LAST_INSERT_ID();
+    -- SET new_std_id = LAST_INSERT_ID();
 
     -- Insert a new row into the student table with the generated student ID and the resolved branch ID
     INSERT INTO student (std_name, std_year, std_rollno, std_prn, branch_id)
-    VALUES (s_name, s_year, s_roll, new_std_id, new_branch_id);
+    VALUES (s_name, s_year, s_roll, s_prn, new_branch_id);
 
     -- Commit the transaction
     COMMIT;
@@ -205,3 +206,203 @@ SELECT * FROM Std_Feedback_Responses;
 ALTER TABLE Std_Feedback_Responses ADD is_given TINYINT(0);
 
 TRUNCATE TABLE Std_Feedback_Responses;
+
+GetQuestionsAndOptionsByFeedId
+CALL GetQuestionByFeedId(20,1);
+
+SELECT
+    SUM(CASE WHEN ops_selected = 'ops1' THEN 1 ELSE 0 END) AS ops1_count,
+    SUM(CASE WHEN ops_selected = 'ops2' THEN 1 ELSE 0 END) AS ops2_count,
+    SUM(CASE WHEN ops_selected = 'ops3' THEN 1 ELSE 0 END) AS ops3_count,
+    SUM(CASE WHEN ops_selected = 'ops4' THEN 1 ELSE 0 END) AS ops4_count,
+    SUM(CASE WHEN ops_selected = 'ops5' THEN 1 ELSE 0 END) AS ops5_count
+FROM Std_Feedback_Responses
+WHERE feed_id = 22 AND que_no = 1;
+
+(SELECT COUNT(std_prn) FROM std_feedback WHERE feed_id = 21 AND is_completed = 'completed') AS unique_std_prn_count_completed
+
+
+SELECT 
+    (SELECT COUNT(std_prn) FROM student) AS unique_std_prn_count_total,
+    (SELECT COUNT(std_prn) FROM std_feedback WHERE feed_id = 20 AND is_completed = 'completed') AS unique_std_prn_count_completed;
+
+
+SELECT
+    feedbacks.*,
+    (
+        SELECT COUNT(DISTINCT std_prn)
+        FROM std_feedback
+        WHERE feed_id = feedbacks.feed_id
+        AND is_completed = 'completed'
+    ) AS unique_std_prn_count_completed
+FROM feedbacks
+WHERE by_faculty_Id = 1024;
+
+
+DELIMITER //
+CREATE PROCEDURE InsertStudent(
+    IN std_name VARCHAR(255),
+    IN std_year VARCHAR(10),
+    IN std_rollno INT,
+    IN std_prn INT,
+    IN branch_id INT
+)
+BEGIN
+    INSERT INTO student (std_name, std_year, std_rollno, std_prn, branch_id)
+    VALUES (std_name, std_year, std_rollno, std_prn, branch_id);
+END //
+DELIMITER ;multiuserlogin
+
+CALL InsertStudent('Swapnil Gawali', '3rd', 51, 1220284, 2);InsertStudent
+
+INSERT INTO multiuserlogin VALUES (44444, "password", "Student");
+
+CALL AddStudent('Swapnil Gawali', '2nd', 51, 'Chemical Engineering', 'pass', 12220278);
+
+DELIMITER //
+CREATE PROCEDURE `AddStudent2`(
+    IN `s_name` VARCHAR(255),
+    IN `s_year` VARCHAR(10),
+    IN `s_branch` VARCHAR(255),
+    IN `s_roll` INT,
+    IN `s_prn` INT,
+    IN `password` VARCHAR(16)
+)
+LANGUAGE SQL
+NOT DETERMINISTIC
+CONTAINS SQL
+SQL SECURITY DEFINER
+COMMENT ''
+BEGIN
+	 -- Declare a variable for the new student ID and branch ID
+    -- DECLARE new_std_id INT;
+    
+    -- Declare a variable for the new student ID and branch ID
+    DECLARE new_branch_id INT;
+
+    -- Get the branch_id based on the branch_name
+    SELECT branch_id INTO new_branch_id FROM branches WHERE branch_name = s_branch LIMIT 1;
+
+    -- If s_prn is 0, set it to NULL to allow the database to auto-increment
+    IF s_prn = 0 THEN
+            -- Get the auto-genAddStudenterated student ID
+         -- SET new_std_id = LAST_INSERT_ID();
+         SET s_prn = LAST_INSERT_ID()+1;
+    		-- SET s_prn = LAST_INSERT_ID()+1;
+    END IF;
+	
+    -- Insert a new row into the multiuserlogin table to generate a new student ID
+	 INSERT INTO multiuserlogin (ID ,Password, Role)
+    VALUES (s_prn, password, 'student');
+	
+    -- Insert a new row into the student table with the generated student ID and the resolved branch ID
+    INSERT INTO student (std_name, std_year, std_rollno, std_prn, branch_id)
+    VALUES (s_name, s_year, s_roll, s_prn, new_branch_id);
+
+    -- Commit the transaction
+    COMMIT;
+END//
+DELIMITER ;
+
+CALL AddStudent2("Shakira singer", '4th', "Computer Science", 76, 0, "shakira123");
+
+
+
+DELIMITER //
+CREATE PROCEDURE `AddFaculty`(
+  	 IN `f_id` INT ,
+    IN `f_name` VARCHAR(255),
+	 IN `f_branch` VARCHAR(255),
+    IN `f_email` VARCHAR(255),
+    IN `f_password` VARCHAR(16)
+)
+LANGUAGE SQL
+NOT DETERMINISTIC
+CONTAINS SQL
+SQL SECURITY DEFINER
+COMMENT ''
+BEGIN
+    -- Declare a variable for the new student ID and branch ID
+    -- DECLARE new_faculty_id INT;
+    DECLARE new_branch_id INT;
+
+    -- Get the branch_id based on the branch_name
+    SELECT branch_id INTO new_branch_id FROM branches WHERE branch_name = f_branch LIMIT 1;
+	 SELECT new_branch_id;
+    
+    
+    INSERT INTO multiuserlogin (ID, Password, Role)
+    VALUES (f_id, f_password, 'faculty');
+    
+    -- SET new_faculty_id = LAST_INSERT_ID();
+
+   
+    INSERT INTO faculty (faculty_name, faculty_id, branch_id, email)
+    VALUES (f_name, f_id, new_branch_id, f_email);
+
+    -- Commit the transaction
+    COMMIT;
+END//
+DELIMITER ;
+SELECT * FROM std_feedback;
+SELECT q.question FROM questions q WHERE feed_id = 11 AND que_no = 1;
+
+CREATE TABLE `Std_Feedback_Responses` (
+    `std_prn` INT NOT NULL,
+    `feed_Id` INT NOT NULL,
+    `que_no` INT NOT NULL,GetQuestionsByFeedId
+    `ops_selected` VARCHAR(255) NOT NULL,
+    PRIMARY KEY (`std_prn`, `feed_Id`, `que_no`),
+    FOREIGN KEY (`std_prn`) REFERENCES student(`std_prn`) ON DELETE CASCADE,
+    FOREIGN KEY (`feed_Id`) REFERENCES feedbacks(`feed_id`) ON DELETE CASCADE,
+    FOREIGN KEY (`que_no`) REFERENCES questions(`que_no`) ON DELETE CASCADE
+);
+
+DELIMITER //
+CREATE DEFINER=`sql12658745`@`%` PROCEDURE `GetQuestionByFeedId`(
+    IN `feedback_id` INT,
+    IN `question_number` INT
+)
+BEGIN
+    SELECT q.que_no, q.question, o.ops1, o.ops2, o.ops3, o.ops4, o.ops5
+    FROM questions q
+    INNER JOIN options o ON q.ops_type = o.ops_type
+    WHERE q.feed_id = feedback_id AND q.que_no = question_number;
+END //
+DELIMITER ;
+
+
+
+SELECT feedbacks.* ,
+( SELECT COUNT(DISTINCT std_prn) FROM std_feedstd_feedbackback WHERE feed_id = feedbacks.feed_id AND is_completed = 'completed') AS responses
+FROM feedbacks
+WHERE by_faculty_Id = 101;
+
+DELIMITER //
+CREATE DEFINER=`sql12658745`@`%` PROCEDURE `RemoveFeedbackForAllStudents`(
+    IN `feedback_id` INT
+)
+LANGUAGE SQL
+NOT DETERMINISTIC
+CONTAINS SQL
+SQL SECURITY DEFINER
+COMMENT ''
+BEGIN
+    -- Start the transaction
+    START TRANSACTION;
+
+    -- Delete feedback for all students with the specified `feedback_id`
+    DELETE FROM std_feedback WHERE feed_id = feedback_id;
+
+    -- Update the `feed_status` to 'Not Published' (or another desired value) for the specified `feedback_id`
+    UPDATE feedbacks SET feed_status = 'Unpublished' WHERE feed_id = feedback_id;
+    
+    DELETE FROM Std_Feedback_Responses WHERE feed_id = feedback_id;
+
+    -- Commit the transaction
+    COMMIT;
+END //
+DELIMITER ;
+
+    
+    

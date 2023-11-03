@@ -35,10 +35,20 @@ public class Admin_Add_Faculty extends javax.swing.JFrame {
         jLabel7 = new javax.swing.JLabel();
         txtEmail = new javax.swing.JTextField();
         txtPass = new javax.swing.JPasswordField();
+        jLabel3 = new javax.swing.JLabel();
+        txtId = new javax.swing.JTextField();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle("Add Faculty");
         setResizable(false);
+        addWindowListener(new java.awt.event.WindowAdapter() {
+            public void windowClosed(java.awt.event.WindowEvent evt) {
+                formWindowClosed(evt);
+            }
+            public void windowClosing(java.awt.event.WindowEvent evt) {
+                formWindowClosing(evt);
+            }
+        });
 
         jLabel1.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
         jLabel1.setText("Add Faculty Details");
@@ -72,6 +82,11 @@ public class Admin_Add_Faculty extends javax.swing.JFrame {
 
         txtPass.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
 
+        jLabel3.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        jLabel3.setText("Id: ");
+
+        txtId.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -79,8 +94,8 @@ public class Admin_Add_Faculty extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(115, 115, 115)
-                        .addComponent(jButton1))
+                        .addGap(96, 96, 96)
+                        .addComponent(jLabel1))
                     .addGroup(layout.createSequentialGroup()
                         .addGap(39, 39, 39)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -97,18 +112,27 @@ public class Admin_Add_Faculty extends javax.swing.JFrame {
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                                     .addComponent(cbBranches, 0, 164, Short.MAX_VALUE)
                                     .addComponent(txtEmail)
-                                    .addComponent(txtPass)))))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(96, 96, 96)
-                        .addComponent(jLabel1)))
+                                    .addComponent(txtPass)))
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 87, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(txtId, javax.swing.GroupLayout.PREFERRED_SIZE, 164, javax.swing.GroupLayout.PREFERRED_SIZE)))))
                 .addContainerGap(46, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addGap(0, 0, Short.MAX_VALUE)
+                .addComponent(jButton1)
+                .addGap(121, 121, 121))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addGap(14, 14, 14)
                 .addComponent(jLabel1)
-                .addGap(26, 26, 26)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 19, Short.MAX_VALUE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jLabel3)
+                    .addComponent(txtId, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel2)
                     .addComponent(txtName, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
@@ -126,7 +150,7 @@ public class Admin_Add_Faculty extends javax.swing.JFrame {
                     .addComponent(txtPass, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addGap(18, 18, 18)
                 .addComponent(jButton1)
-                .addContainerGap(16, Short.MAX_VALUE))
+                .addGap(24, 24, 24))
         );
 
         pack();
@@ -135,12 +159,28 @@ public class Admin_Add_Faculty extends javax.swing.JFrame {
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
         try {
-            query = "CALL AddFaculty(?, ?, ?, ?)";
+            // Validate input before proceeding
+            if (txtId.getText().isEmpty() || txtName.getText().isEmpty() || txtEmail.getText().isEmpty() || txtPass.getText().isEmpty()) {
+                JOptionPane.showMessageDialog(this, "All fields are required.", "Validation Error", JOptionPane.ERROR_MESSAGE);
+                return;
+            }
+
+            int facultyId;
+            try {
+                facultyId = Integer.parseInt(txtId.getText());
+            } catch (NumberFormatException ex) {
+                JOptionPane.showMessageDialog(this, "Faculty ID must be a valid integer.", "Validation Error", JOptionPane.ERROR_MESSAGE);
+                return;
+            }
+
+            // Rest of your code to execute the query
+            query = "CALL AddFaculty(?, ?, ?, ?, ?)";
             pst = conn.prepareStatement(query);
-            pst.setString(1, txtName.getText());
-            pst.setString(2, cbBranches.getSelectedItem().toString());
-            pst.setString(3, txtEmail.getText());
-            pst.setString(4, txtPass.getText());
+            pst.setInt(1, facultyId);
+            pst.setString(2, txtName.getText());
+            pst.setString(3, cbBranches.getSelectedItem().toString());
+            pst.setString(4, txtEmail.getText());
+            pst.setString(5, txtPass.getText());
             rs = pst.executeQuery();
             if (rs.next()) {
                 this.dispose();
@@ -152,6 +192,14 @@ public class Admin_Add_Faculty extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(this, e, "Error", JOptionPane.ERROR_MESSAGE);
         }
     }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void formWindowClosing(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosing
+        // TODO add your handling code here:
+    }//GEN-LAST:event_formWindowClosing
+
+    private void formWindowClosed(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosed
+       this.dispose();
+    }//GEN-LAST:event_formWindowClosed
 
     /**
      * @param args the command line arguments
@@ -193,10 +241,12 @@ public class Admin_Add_Faculty extends javax.swing.JFrame {
     private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
     private javax.swing.JTextField txtEmail;
+    private javax.swing.JTextField txtId;
     private javax.swing.JTextField txtName;
     private javax.swing.JPasswordField txtPass;
     // End of variables declaration//GEN-END:variables

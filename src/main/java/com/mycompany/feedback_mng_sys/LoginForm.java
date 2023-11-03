@@ -30,7 +30,7 @@ public class LoginForm extends javax.swing.JFrame {
         jButton1 = new javax.swing.JButton();
         txt_pass = new javax.swing.JPasswordField();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Login");
         setResizable(false);
 

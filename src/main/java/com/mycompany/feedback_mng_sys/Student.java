@@ -1,7 +1,5 @@
 package com.mycompany.feedback_mng_sys;
 
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -297,7 +295,7 @@ public class Student extends javax.swing.JFrame {
             model.addColumn("Id");
             model.addColumn("Feedback Name");
             model.addColumn("Created By");
-            model.addColumn(    "No of Questions");
+            model.addColumn("No of Questions");
             model.addColumn("Created On");
             model.addColumn("Status");
 

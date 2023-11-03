@@ -4,10 +4,12 @@
  */
 package com.mycompany.feedback_mng_sys;
 
+import java.awt.Color;
 import java.awt.FlowLayout;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import javaswingdev.chart.ModelPieChart;
 import javax.swing.JOptionPane;
 import javax.swing.JProgressBar;
 
@@ -102,6 +104,8 @@ public class Faculty_Feedback_Analytics extends javax.swing.JFrame {
         btnNext = new javax.swing.JButton();
         jLabel19 = new javax.swing.JLabel();
         txt_total_que = new javax.swing.JLabel();
+        pieChart = new javaswingdev.chart.PieChart();
+        btnClose = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Feedback Analysis");
@@ -227,18 +231,20 @@ public class Faculty_Feedback_Analytics extends javax.swing.JFrame {
         txt_total_que.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
         txt_total_que.setText("null");
 
+        btnClose.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        btnClose.setText("Close");
+        btnClose.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnCloseActionPerformed(evt);
+            }
+        });
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
-                .addGap(0, 0, Short.MAX_VALUE)
-                .addComponent(btnPrevious)
-                .addGap(18, 18, 18)
-                .addComponent(btnNext, javax.swing.GroupLayout.PREFERRED_SIZE, 97, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
             .addGroup(layout.createSequentialGroup()
-                .addContainerGap(22, Short.MAX_VALUE)
+                .addGap(25, 25, 25)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -249,51 +255,45 @@ public class Faculty_Feedback_Analytics extends javax.swing.JFrame {
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                 .addComponent(jLabel19))
                             .addGroup(layout.createSequentialGroup()
-                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                    .addGroup(layout.createSequentialGroup()
-                                        .addComponent(jLabel5)
-                                        .addGap(90, 90, 90))
-                                    .addGroup(layout.createSequentialGroup()
-                                        .addComponent(jLabel2)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                        .addComponent(txt_total_std, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addGap(119, 119, 119)
-                                        .addComponent(jLabel3)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                        .addComponent(txt_feedback_provided, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                        .addGap(78, 78, 78)))
+                                .addComponent(jLabel2)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(txt_total_std, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(119, 119, 119)
+                                .addComponent(jLabel3)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(txt_feedback_provided, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(78, 78, 78)
                                 .addComponent(jLabel4)))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(txt_total_que, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(txt_feedback_remaining))
-                        .addGap(12, 12, 12))
+                        .addGap(22, 22, 22))
                     .addGroup(layout.createSequentialGroup()
                         .addComponent(txt_que_no)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(txt_que, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(txt_que, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                            .addGroup(layout.createSequentialGroup()
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                            .addComponent(jLabel10, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                            .addComponent(jLabel11))
+                                        .addComponent(jLabel13))
+                                    .addComponent(jLabel12))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addGroup(layout.createSequentialGroup()
-                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                            .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                                    .addComponent(jLabel10, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                                    .addComponent(jLabel11))
-                                                .addComponent(jLabel13))
-                                            .addComponent(jLabel12))
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                            .addComponent(oo1)
-                                            .addComponent(oo3)
-                                            .addComponent(oo2)
-                                            .addComponent(oo4)))
-                                    .addGroup(layout.createSequentialGroup()
-                                        .addComponent(jLabel14)
-                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                        .addComponent(oo5)))
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(oo1)
+                                    .addComponent(oo3)
+                                    .addComponent(oo2)
+                                    .addComponent(oo4)))
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(jLabel14)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(oo5))
+                            .addGroup(layout.createSequentialGroup()
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                         .addGroup(layout.createSequentialGroup()
@@ -326,15 +326,30 @@ public class Faculty_Feedback_Analytics extends javax.swing.JFrame {
                                         .addComponent(pb1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                         .addComponent(pb3, javax.swing.GroupLayout.PREFERRED_SIZE, 199, javax.swing.GroupLayout.PREFERRED_SIZE)
                                         .addComponent(pb2, javax.swing.GroupLayout.PREFERRED_SIZE, 199, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                    .addComponent(pb5, javax.swing.GroupLayout.PREFERRED_SIZE, 199, javax.swing.GroupLayout.PREFERRED_SIZE))))))
-                .addContainerGap(12, Short.MAX_VALUE))
+                                    .addComponent(pb5, javax.swing.GroupLayout.PREFERRED_SIZE, 199, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(pieChart, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                .addContainerGap())
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addComponent(jLabel5)
+                        .addGap(305, 305, 305))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                        .addComponent(btnPrevious)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(btnNext, javax.swing.GroupLayout.PREFERRED_SIZE, 97, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(btnClose, javax.swing.GroupLayout.PREFERRED_SIZE, 97, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(22, 22, 22))))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(14, 14, 14)
+                .addContainerGap()
                 .addComponent(jLabel5)
-                .addGap(28, 28, 28)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel1)
                     .addComponent(txt_feedback_name)
@@ -348,12 +363,12 @@ public class Faculty_Feedback_Analytics extends javax.swing.JFrame {
                     .addComponent(txt_feedback_provided)
                     .addComponent(jLabel4)
                     .addComponent(txt_feedback_remaining))
-                .addGap(27, 27, 27)
+                .addGap(18, 18, 18)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(txt_que_no)
-                    .addComponent(txt_que, javax.swing.GroupLayout.PREFERRED_SIZE, 64, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(18, 18, 18)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(txt_que, javax.swing.GroupLayout.PREFERRED_SIZE, 54, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(layout.createSequentialGroup()
@@ -365,21 +380,31 @@ public class Faculty_Feedback_Analytics extends javax.swing.JFrame {
                                 .addGap(18, 18, 18)
                                 .addComponent(oo4))
                             .addGroup(layout.createSequentialGroup()
+                                .addComponent(jLabel10)
+                                .addGap(18, 18, 18)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                    .addComponent(jLabel11)
+                                    .addComponent(oo2))
+                                .addGap(56, 56, 56)
+                                .addComponent(jLabel13)))
+                        .addGap(18, 18, 18)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                            .addComponent(jLabel14)
+                            .addComponent(oo5))
+                        .addGap(37, 37, 37)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addGroup(layout.createSequentialGroup()
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                                     .addComponent(pb1, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                        .addComponent(jLabel10)
-                                        .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                            .addComponent(jLabel16)
-                                            .addComponent(o1))))
+                                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                        .addComponent(jLabel16)
+                                        .addComponent(o1)))
                                 .addGap(18, 18, 18)
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                                     .addGroup(layout.createSequentialGroup()
                                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                                            .addComponent(jLabel11)
                                             .addComponent(jLabel18)
-                                            .addComponent(o2)
-                                            .addComponent(oo2))
+                                            .addComponent(o2))
                                         .addGap(18, 18, 18)
                                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                                             .addComponent(jLabel17)
@@ -390,23 +415,23 @@ public class Faculty_Feedback_Analytics extends javax.swing.JFrame {
                                         .addComponent(pb3, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)))
                                 .addGap(18, 18, 18)
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jLabel13)
                                     .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                                         .addComponent(o4)
                                         .addComponent(jLabel20))
-                                    .addComponent(pb4, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                        .addGap(18, 18, 18)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(jLabel14)
-                            .addComponent(oo5)
-                            .addComponent(o5)
-                            .addComponent(jLabel21)))
-                    .addComponent(pb5, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 90, Short.MAX_VALUE)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                    .addComponent(pb4, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addGap(18, 18, 18)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                    .addComponent(o5)
+                                    .addComponent(jLabel21)))
+                            .addComponent(pb5, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addComponent(pieChart, javax.swing.GroupLayout.PREFERRED_SIZE, 408, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addComponent(btnPrevious)
-                    .addComponent(btnNext))
-                .addGap(12, 12, 12))
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(btnNext)
+                        .addComponent(btnClose)))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         pack();
@@ -414,7 +439,7 @@ public class Faculty_Feedback_Analytics extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnPreviousActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPreviousActionPerformed
-        btnNext.setText("Next >");
+        btnNext.setEnabled(true);
         curQue--;
         txt_que_no.setText("Q. " + Integer.toString(curQue) + ".");
         updateQuestion();
@@ -425,22 +450,24 @@ public class Faculty_Feedback_Analytics extends javax.swing.JFrame {
 
     private void btnNextActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNextActionPerformed
         if (curQue == TotalQue) {
-            int confirmResult = JOptionPane.showConfirmDialog(this, "Do You Want To Close the Analytics?", "Confirmation", JOptionPane.YES_NO_OPTION);
-            if (confirmResult == JOptionPane.YES_OPTION) {
-                this.dispose();
-                Faculty_Feedback_Analytics_Home ffah = new Faculty_Feedback_Analytics_Home(loggedFacId);
-                ffah.setVisible(true);
-            }
         } else {
             curQue++;
             updateQuestion();
             btnPrevious.setEnabled(true);
             txt_que_no.setText("Q. " + Integer.toString(curQue) + ".");
             if (curQue == TotalQue) {
-                btnNext.setText("Close");
+                btnNext.setEnabled(false);
             }
         }
     }//GEN-LAST:event_btnNextActionPerformed
+
+    private void btnCloseActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCloseActionPerformed
+        int confirmResult = JOptionPane.showConfirmDialog(this, "Do You Want To Close the Analytics?", "Confirmation", JOptionPane.YES_NO_OPTION);
+        if (confirmResult == JOptionPane.YES_OPTION) {
+            this.dispose();
+            new Faculty(Integer.toString(loggedFacId)).setVisible(true);
+        }
+    }//GEN-LAST:event_btnCloseActionPerformed
 
     /**
      * @param args the command line arguments
@@ -478,6 +505,7 @@ public class Faculty_Feedback_Analytics extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnClose;
     private javax.swing.JButton btnNext;
     private javax.swing.JButton btnPrevious;
     private javax.swing.JLabel jLabel1;
@@ -511,6 +539,7 @@ public class Faculty_Feedback_Analytics extends javax.swing.JFrame {
     private javax.swing.JProgressBar pb3;
     private javax.swing.JProgressBar pb4;
     private javax.swing.JProgressBar pb5;
+    private javaswingdev.chart.PieChart pieChart;
     private javax.swing.JLabel txt_feedback_name;
     private javax.swing.JLabel txt_feedback_provided;
     private javax.swing.JLabel txt_feedback_remaining;
@@ -585,6 +614,13 @@ public class Faculty_Feedback_Analytics extends javax.swing.JFrame {
                     o3.setText(Integer.toString(rs.getInt("ops3_count")));
                     o4.setText(Integer.toString(rs.getInt("ops4_count")));
                     o5.setText(Integer.toString(rs.getInt("ops5_count")));
+                    pieChart.clearData();
+                    pieChart.addData(new ModelPieChart("Not Submitted", Integer.parseInt(txt_feedback_remaining.getText()), new Color(181, 181, 181)));
+                    pieChart.addData(new ModelPieChart(oo1.getText(), rs.getInt("ops1_count"), new Color(255, 0, 0)));
+                    pieChart.addData(new ModelPieChart(oo2.getText(), rs.getInt("ops2_count"), new Color(0, 0, 255)));
+                    pieChart.addData(new ModelPieChart(oo3.getText(), rs.getInt("ops3_count"), new Color(0, 128, 0)));
+                    pieChart.addData(new ModelPieChart(oo4.getText(), rs.getInt("ops4_count"), new Color(227, 9, 216)));
+                    pieChart.addData(new ModelPieChart(oo5.getText(), rs.getInt("ops5_count"), new Color(255, 165, 0)));
                 }
             } catch (Exception e) {
                 e.printStackTrace();
@@ -599,7 +635,14 @@ public class Faculty_Feedback_Analytics extends javax.swing.JFrame {
 
         // Progress bars below
         try {
-            query = "CALL CountStudentOptions(?, ?)";
+            query = "SELECT\n"
+                    + "    SUM(CASE WHEN ops_selected = 'ops1' THEN 1 ELSE 0 END) as ops1_count,\n"
+                    + "    SUM(CASE WHEN ops_selected = 'ops2' THEN 1 ELSE 0 END) as ops2_count,\n"
+                    + "    SUM(CASE WHEN ops_selected = 'ops3' THEN 1 ELSE 0 END) as ops3_count,\n"
+                    + "    SUM(CASE WHEN ops_selected = 'ops4' THEN 1 ELSE 0 END) as ops4_count,\n"
+                    + "    SUM(CASE WHEN ops_selected = 'ops5' THEN 1 ELSE 0 END) as ops5_count\n"
+                    + "FROM Std_Feedback_Responses\n"
+                    + "WHERE feed_id = ? AND que_no = ?;";
             pst = conn.prepareStatement(query);
             pst.setInt(1, feedbackId);
             pst.setInt(2, curQue);
@@ -636,7 +679,6 @@ public class Faculty_Feedback_Analytics extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(this, e, "Error occured in progress bars...", JOptionPane.ERROR_MESSAGE);
 
         }
-
     }
 
 }

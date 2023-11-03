@@ -30,9 +30,6 @@ public class Faculty_Feedback_Analytics_Home extends javax.swing.JFrame {
     private String FeedbackName;
     private int TotalQue;
 
-    /**
-     * Creates new form Faculty_Feedback_Analytics
-     */
     public Faculty_Feedback_Analytics_Home(int loggedFacId) {
         initComponents();
         conn = DatabaseConnector.connect();
@@ -79,7 +76,7 @@ public class Faculty_Feedback_Analytics_Home extends javax.swing.JFrame {
         jLabel1 = new javax.swing.JLabel();
         see_analytics = new javax.swing.JButton();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Feedback Analytics");
         setResizable(false);
 

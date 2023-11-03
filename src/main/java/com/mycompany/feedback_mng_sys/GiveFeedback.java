@@ -452,16 +452,16 @@ public class GiveFeedback extends javax.swing.JFrame {
 
     private void submitFeedback() {
         try {
-            query = "INSERT INTO Std_Feedback_Responses (std_prn, feed_Id, que_no, ops_selected, is_given) "
-                    + "VALUES (?, ?, ?, ?, ?) "
+            query = "INSERT INTO Std_Feedback_Responses (std_prn, feed_Id, que_no, ops_selected) "
+                    + "VALUES (?, ?, ?, ?) "
                     + "ON DUPLICATE KEY UPDATE "
-                    + "ops_selected = VALUES(ops_selected), is_given = VALUES(is_given)";
+                    + "ops_selected = VALUES(ops_selected)";
             pst = conn.prepareStatement(query, PreparedStatement.RETURN_GENERATED_KEYS);
             pst.setInt(1, Integer.parseInt(loggedStudentId));
             pst.setInt(2, feedbackId);
             pst.setInt(3, curQue);
             pst.setString(4, radio_option[counter]);
-            pst.setBoolean(5, true);
+//            pst.setBoolean(5, true);
 
             int rowsAffected = pst.executeUpdate();
 

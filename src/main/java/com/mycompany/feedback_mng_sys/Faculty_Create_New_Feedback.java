@@ -40,6 +40,7 @@ public class Faculty_Create_New_Feedback extends javax.swing.JFrame {
         tf_fac_num_of_qst_in_feedback = new javax.swing.JSpinner();
         btn_fac_feedback_details_proceed = new javax.swing.JButton();
 
+        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("Feedback Details");
         setResizable(false);
 
@@ -85,7 +86,7 @@ public class Faculty_Create_New_Feedback extends javax.swing.JFrame {
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(btn_fac_feedback_details_proceed)
-                .addGap(144, 144, 144))
+                .addGap(155, 155, 155))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -120,7 +121,7 @@ public class Faculty_Create_New_Feedback extends javax.swing.JFrame {
         } else {
             try {
                 String feedbackId = addFeedback(feedbackName, numQuestions);
-                addStdFeedbackEntries(feedbackId);
+//                addStdFeedbackEntries(feedbackId);
                 JOptionPane.showMessageDialog(this, "Feedback created successfully!", "Sucess", JOptionPane.PLAIN_MESSAGE);
 
                 // forwarding to the next page of add question in the feeback
@@ -211,18 +212,6 @@ public class Faculty_Create_New_Feedback extends javax.swing.JFrame {
         return generatedFeedId;
     }
 
-    private void addStdFeedbackEntries(String feedbackId) {
-        try {
-            query = "CALL AddFeedbackForAllStudents(?)";
-            pst = conn.prepareStatement(query, PreparedStatement.RETURN_GENERATED_KEYS);
-            pst.setString(1, feedbackId);
-            pst.executeUpdate();
-            
-        } catch (Exception e) {
-            e.printStackTrace();
-            JOptionPane.showMessageDialog(this, e, "Error", JOptionPane.ERROR_MESSAGE);
-        }
-
-    }
+    
 
 }
