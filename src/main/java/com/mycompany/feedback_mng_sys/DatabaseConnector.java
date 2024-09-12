@@ -11,9 +11,9 @@ public class DatabaseConnector {
     public static Connection connect() {
         try {
             if (conn == null || conn.isClosed()) {
-                String url = "jdbc:mysql://sql12.freemysqlhosting.net:3306/sql12658745";
-                String user = "sql12658745";
-                String password = "TPVfXCwKlf";
+                String url = "jdbc:mysql://localhost:3306/feedback_mng_sys";
+                String user = "root";
+                String password = "";
 
                 Class.forName("com.mysql.cj.jdbc.Driver");
                 conn = DriverManager.getConnection(url, user, password);
